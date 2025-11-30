@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bubbles the Fish - Survival Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Quicksand', sans-serif;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: #00d4ff;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .game-container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            max-width: 100%;
+        }
+
+        .tank-wrapper {
+            position: relative;
+        }
+
+        .fish-tank {
+            width: 600px;
+            height: 450px;
+            background: linear-gradient(180deg, 
+                rgba(0, 150, 200, 0.3) 0%, 
+                rgba(0, 100, 150, 0.5) 50%, 
+                rgba(0, 80, 120, 0.7) 100%);
+            border-radius: 20px;
+            border: 8px solid #2d4a6e;
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+            box-shadow: 
+                inset 0 0 100px rgba(0, 200, 255, 0.1),
+                0 10px 40px rgba(0, 0, 0, 0.5),
+                0 0 60px rgba(0, 150, 200, 0.2);
+            touch-action: none;
+        }
+
+        .fish-tank::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(180deg, 
+                rgba(255, 255, 255, 0.2) 0%, 
+                transparent 100%);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .sand {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(180deg, #d4a574 0%, #c4956a 50%, #b08560 100%);
+            border-radius: 0 0 12px 12px;
+        }
+
+        .sand::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.2) 20%,
+                transparent 40%,
+                rgba(255, 255, 255, 0.15) 60%,
+                transparent 80%);
+        }
+
+        .plant {
+            position: absolute;
+            bottom: 40px;
+            width: 30px;
+        }
+
+        .plant-1 { left: 50px; }
+        .plant-2 { left: 150px; height: 100px; }
+        .plant-3 { right: 80px; }
+        .plant-4 { right: 180px; }
+
+        .plant svg {
+            width: 100%;
+            height: auto;
+            animation: sway 3s ease-in-out infinite;
+        }
+
+        .plant-2 svg { animation-delay: -0.5s; animation-duration: 3.5s; }
+        .plant-3 svg { animation-delay: -1s; animation-duration: 2.8s; }
+        .plant-4 svg { animation-delay: -1.5s; animation-duration: 3.2s; }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        .rock {
+            position: absolute;
+            bottom: 35px;
+        }
+
+        .rock-1 {
+            left: 100px;
+            width: 60px;
+            height: 35px;
+            background: linear-gradient(135deg, #6b7b8c 0%, #4a5568 50%, #3d4852 100%);
+            border-radius: 50% 50% 45% 45%;
+        }
+
+        .rock-2 {
+            right: 120px;
+            width: 45px;
+            height: 28px;
+            background: linear-gradient(135deg, #5a6b7c 0%, #3f4f5f 50%, #2d3a47 100%);
+            border-radius: 45% 55% 40% 50%;
+        }
+
+        .castle {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 90px;
+        }
+
+        .castle-body {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #b8860b 0%, #8b6914 50%, #705a12 100%);
+            border-radius: 5px;
+        }
+
+        .castle-door {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 25px;
+            background: #1a1a1a;
+            border-radius: 50% 50% 0 0;
+        }
+
+        .castle-tower {
+            position: absolute;
+            bottom: 45px;
+            width: 20px;
+            height: 50px;
+            background: linear-gradient(135deg, #b8860b 0%, #8b6914 100%);
+            border-radius: 3px;
+        }
+
+        .castle-tower::before {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 15px solid #705a12;
+        }
+
+        .castle-tower.left { left: 5px; }
+        .castle-tower.right { right: 5px; }
+
+        .fish {
+            position: absolute;
+            width: 70px;
+            height: 50px;
+            transition: transform 0.1s ease;
+            z-index: 10;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+        }
+
+        .fish.flip {
+            transform: scaleX(-1);
+        }
+
+        .fish.dead {
+            transform: rotate(180deg) !important;
+            filter: grayscale(0.5) drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+        }
+
+        .fish.eating .fish-mouth {
+            animation: chomp 0.15s ease-in-out 4;
+        }
+
+        @keyframes chomp {
+            0%, 100% { 
+                transform: scale(1, 1);
+            }
+            50% { 
+                transform: scale(1.8, 0.3);
+            }
+        }
+
+        .bubble {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(255, 255, 255, 0.8) 0%, 
+                rgba(200, 230, 255, 0.4) 50%, 
+                rgba(150, 200, 255, 0.2) 100%);
+            border-radius: 50%;
+            animation: rise 4s ease-in forwards;
+            pointer-events: none;
+        }
+
+        @keyframes rise {
+            0% { opacity: 0.8; }
+            100% { 
+                transform: translateY(-400px);
+                opacity: 0;
+            }
+        }
+
+        .food {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #ff9966 0%, #ff6633 100%);
+            border-radius: 50%;
+            animation: fall 3s ease-in forwards;
+            z-index: 5;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fall {
+            0% { opacity: 1; }
+            100% { 
+                transform: translateY(350px);
+                opacity: 0.5;
+            }
+        }
+
+        .stats-panel {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d2137 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid #2d5a87;
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat {
+            margin-bottom: 20px;
+        }
+
+        .stat:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-label {
+            color: #7ec8e3;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-icon {
+            font-size: 1.2rem;
+        }
+
+        .stat-bar {
+            height: 20px;
+            background: #0a1628;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #2d5a87;
+        }
+
+        .stat-fill {
+            height: 100%;
+            border-radius: 8px;
+            transition: width 0.5s ease, background 0.3s ease;
+            position: relative;
+        }
+
+        .stat-fill::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 5px;
+            right: 5px;
+            height: 6px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);
+            border-radius: 3px;
+        }
+
+        .hunger-fill {
+            background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
+        }
+
+        .happiness-fill {
+            background: linear-gradient(90deg, #ffd93d, #f9c80e);
+        }
+
+        .health-fill {
+            background: linear-gradient(90deg, #6bcb77, #4ade80);
+        }
+
+        .cleanliness-fill {
+            background: linear-gradient(90deg, #4ecdc4, #45b7aa);
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-feed {
+            background: linear-gradient(135deg, #ff9966 0%, #ff6633 100%);
+            color: white;
+        }
+
+        .btn-clean {
+            background: linear-gradient(135deg, #4ecdc4 0%, #45b7aa 100%);
+            color: white;
+        }
+
+        .btn-play {
+            background: linear-gradient(135deg, #ffd93d 0%, #f9c80e 100%);
+            color: #333;
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #2d5a87 0%, #1e3a5f 100%);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .score-label {
+            color: #7ec8e3;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .score-value {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem;
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .fish-name {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .fish-name span {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5rem;
+            color: #ffb347;
+            text-shadow: 0 0 10px rgba(255, 179, 71, 0.5);
+        }
+
+        .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            border-radius: 12px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .game-over.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .game-over h2 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .game-over p {
+            color: #7ec8e3;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .btn-restart {
+            background: linear-gradient(135deg, #6bcb77 0%, #4ade80 100%);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+        }
+
+        .instructions {
+            color: #5a8ab0;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 20px;
+            max-width: 600px;
+        }
+
+        .dirty-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(80, 100, 60, 0);
+            pointer-events: none;
+            transition: background 1s ease;
+            border-radius: 12px;
+        }
+
+        .treasure {
+            position: absolute;
+            bottom: 45px;
+            right: 40px;
+            width: 35px;
+            height: 25px;
+            background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
+            border-radius: 3px 3px 5px 5px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .treasure::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 5px;
+            right: 5px;
+            height: 10px;
+            background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* ==================== RESPONSIVE STYLES ==================== */
+        
+        /* Tablet and smaller desktop */
+        @media (max-width: 900px) {
+            .game-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stats-panel {
+                width: 100%;
+                max-width: 600px;
+            }
+            
+            .controls {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .controls .btn {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+        
+        /* Mobile landscape and small tablets */
+        @media (max-width: 650px) {
+            body {
+                padding: 10px;
+                justify-content: flex-start;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 10px;
+            }
+            
+            .fish-tank {
+                width: calc(100vw - 20px);
+                max-width: 600px;
+                height: calc((100vw - 20px) * 0.75);
+                max-height: 450px;
+                border-width: 5px;
+            }
+            
+            .sand {
+                height: 35px;
+            }
+            
+            .plant {
+                width: 20px;
+                bottom: 28px;
+            }
+            
+            .plant-1 { left: 8%; }
+            .plant-2 { left: 25%; }
+            .plant-3 { right: 13%; }
+            .plant-4 { right: 30%; }
+            
+            .rock { bottom: 25px; }
+            .rock-1 { 
+                left: 15%; 
+                width: 45px; 
+                height: 25px; 
+            }
+            .rock-2 { 
+                right: 20%; 
+                width: 35px; 
+                height: 20px; 
+            }
+            
+            .castle {
+                width: 60px;
+                height: 70px;
+                bottom: 28px;
+            }
+            
+            .castle-body {
+                width: 38px;
+                height: 38px;
+            }
+            
+            .castle-door {
+                width: 12px;
+                height: 20px;
+            }
+            
+            .castle-tower {
+                width: 15px;
+                height: 38px;
+                bottom: 34px;
+            }
+            
+            .castle-tower::before {
+                border-left-width: 9px;
+                border-right-width: 9px;
+                border-bottom-width: 12px;
+            }
+            
+            .treasure {
+                width: 28px;
+                height: 20px;
+                bottom: 32px;
+                right: 6%;
+            }
+            
+            .fish {
+                width: 55px;
+                height: 40px;
+            }
+            
+            .stats-panel {
+                padding: 15px;
+                width: calc(100vw - 20px);
+            }
+            
+            .fish-name span {
+                font-size: 1.2rem;
+            }
+            
+            .score-display {
+                padding: 10px;
+                margin-bottom: 12px;
+            }
+            
+            .score-value {
+                font-size: 1.5rem;
+            }
+            
+            .stat {
+                margin-bottom: 12px;
+            }
+            
+            .stat-label {
+                font-size: 0.8rem;
+                margin-bottom: 5px;
+            }
+            
+            .stat-bar {
+                height: 16px;
+            }
+            
+            .controls {
+                gap: 8px;
+                margin-top: 12px;
+            }
+            
+            .controls .btn {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+            }
+            
+            .instructions {
+                font-size: 0.75rem;
+                margin-top: 12px;
+                padding: 0 10px;
+            }
+            
+            .game-over h2 {
+                font-size: 1.8rem;
+            }
+            
+            .game-over p {
+                font-size: 1rem;
+            }
+            
+            .btn-restart {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Small mobile phones */
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            .fish-tank {
+                height: calc((100vw - 20px) * 0.8);
+                border-width: 4px;
+            }
+            
+            .fish {
+                width: 45px;
+                height: 32px;
+            }
+            
+            .castle {
+                width: 50px;
+                height: 55px;
+            }
+            
+            .castle-body {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .castle-tower {
+                width: 12px;
+                height: 30px;
+                bottom: 28px;
+            }
+            
+            .controls .btn {
+                padding: 10px 12px;
+                font-size: 0.75rem;
+                min-width: 90px;
+            }
+            
+            .stat-label {
+                font-size: 0.75rem;
+            }
+            
+            .stat-icon {
+                font-size: 1rem;
+            }
+            
+            .fish-name span {
+                font-size: 1rem;
+            }
+            
+            .score-value {
+                font-size: 1.3rem;
+            }
+        }
+        
+        /* Landscape mode on mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding: 5px 10px;
+            }
+            
+            h1 {
+                font-size: 1.2rem;
+                margin-bottom: 5px;
+            }
+            
+            .game-container {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+            
+            .fish-tank {
+                width: 55vw;
+                height: calc(100vh - 40px);
+                max-height: none;
+            }
+            
+            .stats-panel {
+                width: auto;
+                min-width: 150px;
+                max-width: 35vw;
+                padding: 10px;
+            }
+            
+            .stat {
+                margin-bottom: 8px;
+            }
+            
+            .stat-bar {
+                height: 14px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .controls .btn {
+                padding: 8px 10px;
+                font-size: 0.75rem;
+            }
+            
+            .instructions {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🐠 Bubbles' Fishtank 🐠</h1>
+    
+    <div class="game-container">
+        <div class="tank-wrapper">
+            <div class="fish-tank" id="tank">
+                <div class="dirty-overlay" id="dirtyOverlay"></div>
+                
+                <!-- Decorations -->
+                <div class="plant plant-1">
+                    <svg viewBox="0 0 30 80" fill="none">
+                        <path d="M15 80 Q10 60 15 40 Q8 50 5 30 Q12 40 15 20 Q10 25 8 10 Q15 18 15 0" stroke="#2d8a4e" stroke-width="3" fill="none"/>
+                        <path d="M15 80 Q20 60 15 40 Q22 50 25 30 Q18 40 15 20 Q20 25 22 10 Q15 18 15 0" stroke="#3da55d" stroke-width="3" fill="none"/>
+                    </svg>
+                </div>
+                <div class="plant plant-2">
+                    <svg viewBox="0 0 30 100" fill="none">
+                        <path d="M15 100 Q8 75 15 50 Q5 65 2 35 Q12 50 15 25 Q8 32 5 12 Q15 22 15 0" stroke="#267d42" stroke-width="3" fill="none"/>
+                        <path d="M15 100 Q22 75 15 50 Q25 65 28 35 Q18 50 15 25 Q22 32 25 12 Q15 22 15 0" stroke="#32a852" stroke-width="3" fill="none"/>
+                    </svg>
+                </div>
+                <div class="plant plant-3">
+                    <svg viewBox="0 0 30 70" fill="none">
+                        <path d="M15 70 Q12 55 15 40 Q10 48 8 28 Q14 38 15 18 Q11 23 10 8 Q15 15 15 0" stroke="#2d8a4e" stroke-width="2" fill="none"/>
+                        <path d="M15 70 Q18 55 15 40 Q20 48 22 28 Q16 38 15 18 Q19 23 20 8 Q15 15 15 0" stroke="#3da55d" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <div class="plant plant-4">
+                    <svg viewBox="0 0 30 60" fill="none">
+                        <path d="M15 60 Q11 48 15 35 Q9 42 7 25 Q13 33 15 15 Q11 20 9 8 Q15 13 15 0" stroke="#267d42" stroke-width="2" fill="none"/>
+                        <path d="M15 60 Q19 48 15 35 Q21 42 23 25 Q17 33 15 15 Q19 20 21 8 Q15 13 15 0" stroke="#32a852" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                
+                <div class="rock rock-1"></div>
+                <div class="rock rock-2"></div>
+                
+                <div class="castle">
+                    <div class="castle-tower left"></div>
+                    <div class="castle-tower right"></div>
+                    <div class="castle-body">
+                        <div class="castle-door"></div>
+                    </div>
+                </div>
+                
+                <div class="treasure"></div>
+                
+                <div class="sand"></div>
+                
+                <!-- Fish -->
+                <svg class="fish" id="fish" viewBox="0 0 70 50">
+                    <defs>
+                        <linearGradient id="fishGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ff9a56"/>
+                            <stop offset="50%" style="stop-color:#ff6b35"/>
+                            <stop offset="100%" style="stop-color:#f54d21"/>
+                        </linearGradient>
+                        <linearGradient id="finGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ff7849"/>
+                            <stop offset="100%" style="stop-color:#e84118"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Tail -->
+                    <path d="M5 25 Q0 15 8 10 Q12 20 12 25 Q12 30 8 40 Q0 35 5 25" fill="url(#finGrad)">
+                        <animate attributeName="d" dur="0.3s" repeatCount="indefinite"
+                            values="M5 25 Q0 15 8 10 Q12 20 12 25 Q12 30 8 40 Q0 35 5 25;
+                                    M5 25 Q0 18 8 15 Q12 22 12 25 Q12 28 8 35 Q0 32 5 25;
+                                    M5 25 Q0 15 8 10 Q12 20 12 25 Q12 30 8 40 Q0 35 5 25"/>
+                    </path>
+                    <!-- Body -->
+                    <ellipse cx="35" cy="25" rx="25" ry="18" fill="url(#fishGrad)"/>
+                    <!-- Top fin -->
+                    <path d="M30 8 Q35 0 45 5 Q40 12 35 10 Z" fill="url(#finGrad)">
+                        <animate attributeName="d" dur="0.5s" repeatCount="indefinite"
+                            values="M30 8 Q35 0 45 5 Q40 12 35 10 Z;
+                                    M30 8 Q35 2 45 7 Q40 12 35 10 Z;
+                                    M30 8 Q35 0 45 5 Q40 12 35 10 Z"/>
+                    </path>
+                    <!-- Bottom fin -->
+                    <path d="M30 42 Q35 48 42 45 Q38 40 33 41 Z" fill="url(#finGrad)"/>
+                    <!-- Side fin -->
+                    <ellipse cx="32" cy="28" rx="8" ry="4" fill="url(#finGrad)" opacity="0.8">
+                        <animate attributeName="ry" dur="0.4s" repeatCount="indefinite"
+                            values="4;3;4"/>
+                    </ellipse>
+                    <!-- Eye -->
+                    <circle cx="48" cy="20" r="7" fill="white"/>
+                    <circle cx="50" cy="20" r="4" fill="#1a1a2e"/>
+                    <circle cx="51" cy="18" r="1.5" fill="white"/>
+                    <!-- Mouth -->
+                    <ellipse class="fish-mouth" cx="58" cy="27" rx="3" ry="2" fill="#d63031" opacity="0.8"/>
+                    <!-- Scales pattern -->
+                    <path d="M25 20 Q30 18 35 20 Q30 22 25 20" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                    <path d="M30 28 Q35 26 40 28 Q35 30 30 28" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                    <path d="M20 25 Q25 23 30 25 Q25 27 20 25" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                </svg>
+                
+                <div class="game-over" id="gameOver">
+                    <h2>Game Over</h2>
+                    <p>Bubbles survived for <span id="finalScore">0</span> seconds</p>
+                    <button class="btn btn-restart" onclick="restartGame()">🔄 Try Again</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-panel">
+            <div class="fish-name">
+                <span>🐟 Bubbles</span>
+            </div>
+            
+            <div class="score-display">
+                <div class="score-label">SURVIVAL TIME</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            
+            <div class="stat">
+                <div class="stat-label"><span class="stat-icon">🍖</span> Hunger</div>
+                <div class="stat-bar">
+                    <div class="stat-fill hunger-fill" id="hungerBar" style="width: 100%"></div>
+                </div>
+            </div>
+            
+            <div class="stat">
+                <div class="stat-label"><span class="stat-icon">😊</span> Happiness</div>
+                <div class="stat-bar">
+                    <div class="stat-fill happiness-fill" id="happinessBar" style="width: 100%"></div>
+                </div>
+            </div>
+            
+            <div class="stat">
+                <div class="stat-label"><span class="stat-icon">❤️</span> Health</div>
+                <div class="stat-bar">
+                    <div class="stat-fill health-fill" id="healthBar" style="width: 100%"></div>
+                </div>
+            </div>
+            
+            <div class="stat">
+                <div class="stat-label"><span class="stat-icon">💧</span> Water Quality</div>
+                <div class="stat-bar">
+                    <div class="stat-fill cleanliness-fill" id="cleanlinessBar" style="width: 100%"></div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="btn btn-feed" onclick="dropFood()">🍕 Drop Food</button>
+                <button class="btn btn-clean" onclick="cleanTank()">🧹 Clean Tank</button>
+                <button class="btn btn-play" onclick="playWithFish()">🎾 Play</button>
+            </div>
+        </div>
+    </div>
+    
+    <p class="instructions">
+        Tap anywhere in the tank to drop food! Keep Bubbles fed, happy, and healthy to survive as long as possible.
+        <br>Clean the tank regularly to maintain water quality. Play with Bubbles to boost happiness!
+    </p>
+
+    <script>
+        // Game State
+        let gameState = {
+            hunger: 100,
+            happiness: 100,
+            health: 100,
+            cleanliness: 100,
+            score: 0,
+            isAlive: true,
+            foodCount: 0
+        };
+
+        // Fish position and movement
+        let fish = {
+            x: 250,
+            y: 180,
+            targetX: 250,
+            targetY: 180,
+            speed: 2,
+            facingRight: true
+        };
+
+        // Tank dimensions for responsive scaling
+        let tankWidth = 600;
+        let tankHeight = 450;
+
+        let foodItems = [];
+        const tank = document.getElementById('tank');
+        const fishEl = document.getElementById('fish');
+        const dirtyOverlay = document.getElementById('dirtyOverlay');
+
+        // Update tank dimensions on resize
+        function updateTankDimensions() {
+            const rect = tank.getBoundingClientRect();
+            tankWidth = rect.width;
+            tankHeight = rect.height;
+            
+            // Clamp fish position to new dimensions
+            fish.x = Math.min(fish.x, tankWidth - 70);
+            fish.y = Math.min(fish.y, tankHeight - 100);
+            fish.targetX = Math.min(fish.targetX, tankWidth - 70);
+            fish.targetY = Math.min(fish.targetY, tankHeight - 100);
+        }
+
+        // Initialize
+        function init() {
+            updateTankDimensions();
+            window.addEventListener('resize', updateTankDimensions);
+            
+            updateFishPosition();
+            setInterval(gameLoop, 50);
+            setInterval(updateStats, 1000);
+            setInterval(spawnBubble, 2000);
+            setInterval(moveFishRandomly, 3000);
+            
+            // Mouse click
+            tank.addEventListener('click', handleInteraction);
+            
+            // Touch support
+            tank.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                handleInteraction({
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+            }, { passive: false });
+        }
+
+        function handleInteraction(e) {
+            if (!gameState.isAlive) return;
+            const rect = tank.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            createFood(x, y);
+        }
+
+        // Game loop
+        function gameLoop() {
+            if (!gameState.isAlive) return;
+            
+            moveFish();
+            checkFoodCollision();
+            updateVisuals();
+        }
+
+        // Move fish towards target
+        function moveFish() {
+            const dx = fish.targetX - fish.x;
+            const dy = fish.targetY - fish.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            // Scale speed based on tank size
+            const scaledSpeed = fish.speed * (tankWidth / 600);
+            
+            if (dist > 5) {
+                fish.x += (dx / dist) * scaledSpeed;
+                fish.y += (dy / dist) * scaledSpeed;
+                
+                // Update facing direction
+                if (dx > 0 && !fish.facingRight) {
+                    fish.facingRight = true;
+                    fishEl.classList.remove('flip');
+                } else if (dx < 0 && fish.facingRight) {
+                    fish.facingRight = false;
+                    fishEl.classList.add('flip');
+                }
+            }
+            
+            updateFishPosition();
+        }
+
+        function updateFishPosition() {
+            fishEl.style.left = fish.x + 'px';
+            fishEl.style.top = fish.y + 'px';
+        }
+
+        // Random fish movement
+        function moveFishRandomly() {
+            if (!gameState.isAlive) return;
+            
+            const sandHeight = tankHeight * 0.11;
+            const maxY = tankHeight - sandHeight - 60;
+            
+            // If there's food, go towards it
+            if (foodItems.length > 0) {
+                const nearestFood = foodItems[0];
+                const fishWidth = fishEl.getBoundingClientRect().width;
+                fish.targetX = nearestFood.x - fishWidth / 2;
+                fish.targetY = nearestFood.y - 25;
+            } else {
+                // Random movement
+                fish.targetX = 30 + Math.random() * (tankWidth - 100);
+                fish.targetY = 30 + Math.random() * maxY;
+            }
+        }
+
+        // Create food
+        function createFood(x, y) {
+            const food = document.createElement('div');
+            food.className = 'food';
+            food.style.left = x + 'px';
+            food.style.top = Math.max(30, y) + 'px';
+            tank.appendChild(food);
+            
+            const foodObj = { element: food, x: x, y: Math.max(30, y) };
+            foodItems.push(foodObj);
+            
+            // Make fish go towards food
+            const fishWidth = fishEl.getBoundingClientRect().width;
+            fish.targetX = x - fishWidth / 2;
+            fish.targetY = Math.max(30, y) - 25;
+            
+            // Remove food after animation
+            setTimeout(() => {
+                if (foodItems.includes(foodObj)) {
+                    food.remove();
+                    foodItems = foodItems.filter(f => f !== foodObj);
+                    gameState.cleanliness = Math.max(0, gameState.cleanliness - 3);
+                }
+            }, 3000);
+            
+            gameState.foodCount++;
+        }
+
+        // Check if fish eats food
+        function checkFoodCollision() {
+            const fishWidth = fishEl.getBoundingClientRect().width;
+            const collisionDist = fishWidth * 0.6;
+            
+            for (let i = foodItems.length - 1; i >= 0; i--) {
+                const food = foodItems[i];
+                const dx = (fish.x + fishWidth / 2) - food.x;
+                const dy = (fish.y + 25) - food.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                
+                if (dist < collisionDist) {
+                    // Eat food!
+                    food.element.remove();
+                    foodItems.splice(i, 1);
+                    
+                    // Trigger eating animation
+                    fishEl.classList.add('eating');
+                    setTimeout(() => fishEl.classList.remove('eating'), 600);
+                    
+                    gameState.hunger = Math.min(100, gameState.hunger + 20);
+                    gameState.happiness = Math.min(100, gameState.happiness + 5);
+                    
+                    // Move to new random position
+                    moveFishRandomly();
+                }
+            }
+        }
+
+        // Update stats over time
+        function updateStats() {
+            if (!gameState.isAlive) return;
+            
+            // Decrease stats over time
+            gameState.hunger = Math.max(0, gameState.hunger - 2);
+            gameState.happiness = Math.max(0, gameState.happiness - 1);
+            gameState.cleanliness = Math.max(0, gameState.cleanliness - 0.5);
+            
+            // Health affected by other stats
+            if (gameState.hunger < 30) {
+                gameState.health = Math.max(0, gameState.health - 3);
+            }
+            if (gameState.cleanliness < 30) {
+                gameState.health = Math.max(0, gameState.health - 2);
+            }
+            if (gameState.hunger > 50 && gameState.cleanliness > 50) {
+                gameState.health = Math.min(100, gameState.health + 1);
+            }
+            
+            // Happiness affected by hunger
+            if (gameState.hunger < 20) {
+                gameState.happiness = Math.max(0, gameState.happiness - 2);
+            }
+            
+            // Update score
+            gameState.score++;
+            document.getElementById('score').textContent = gameState.score;
+            
+            // Check for death
+            if (gameState.health <= 0) {
+                gameOver();
+            }
+            
+            updateVisuals();
+        }
+
+        // Update visual elements
+        function updateVisuals() {
+            document.getElementById('hungerBar').style.width = gameState.hunger + '%';
+            document.getElementById('happinessBar').style.width = gameState.happiness + '%';
+            document.getElementById('healthBar').style.width = gameState.health + '%';
+            document.getElementById('cleanlinessBar').style.width = gameState.cleanliness + '%';
+            
+            // Update bar colors based on level
+            updateBarColor('hungerBar', gameState.hunger);
+            updateBarColor('happinessBar', gameState.happiness);
+            updateBarColor('healthBar', gameState.health);
+            updateBarColor('cleanlinessBar', gameState.cleanliness);
+            
+            // Update dirty overlay - water gets greener as it gets dirtier
+            const dirtiness = (100 - gameState.cleanliness) / 100;
+            const greenIntensity = Math.floor(80 + dirtiness * 100);
+            const redIntensity = Math.floor(30 + dirtiness * 40);
+            const blueIntensity = Math.floor(20 + dirtiness * 20);
+            dirtyOverlay.style.background = `rgba(${redIntensity}, ${greenIntensity}, ${blueIntensity}, ${dirtiness * 0.55})`;
+            
+            // Fish speed affected by hunger
+            fish.speed = gameState.hunger > 30 ? 2 : 1;
+        }
+
+        function updateBarColor(barId, value) {
+            const bar = document.getElementById(barId);
+            if (value < 20) {
+                bar.style.filter = 'hue-rotate(-30deg) saturate(1.5)';
+            } else if (value < 40) {
+                bar.style.filter = 'hue-rotate(-15deg)';
+            } else {
+                bar.style.filter = 'none';
+            }
+        }
+
+        // Spawn bubbles
+        function spawnBubble() {
+            if (!gameState.isAlive) return;
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            const size = 5 + Math.random() * 15;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = (30 + Math.random() * (tankWidth - 60)) + 'px';
+            bubble.style.bottom = (tankHeight * 0.13) + 'px';
+            tank.appendChild(bubble);
+            
+            setTimeout(() => bubble.remove(), 4000);
+        }
+
+        // Button actions
+        function dropFood() {
+            if (!gameState.isAlive) return;
+            const x = 50 + Math.random() * (tankWidth - 100);
+            createFood(x, 50);
+        }
+
+        function cleanTank() {
+            if (!gameState.isAlive) return;
+            gameState.cleanliness = Math.min(100, gameState.cleanliness + 30);
+            gameState.happiness = Math.min(100, gameState.happiness + 5);
+            updateVisuals();
+            
+            // Visual feedback
+            dirtyOverlay.style.transition = 'background 0.3s ease';
+            setTimeout(() => {
+                dirtyOverlay.style.transition = 'background 1s ease';
+            }, 300);
+        }
+
+        function playWithFish() {
+            if (!gameState.isAlive) return;
+            gameState.happiness = Math.min(100, gameState.happiness + 25);
+            gameState.hunger = Math.max(0, gameState.hunger - 5);
+            
+            const sandHeight = tankHeight * 0.11;
+            const maxY = tankHeight - sandHeight - 60;
+            
+            // Make fish swim around excitedly
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    fish.targetX = 30 + Math.random() * (tankWidth - 100);
+                    fish.targetY = 30 + Math.random() * maxY;
+                    fish.speed = 4;
+                }, i * 500);
+            }
+            setTimeout(() => fish.speed = 2, 2000);
+            
+            updateVisuals();
+        }
+
+        // Game over
+        function gameOver() {
+            gameState.isAlive = false;
+            fishEl.classList.add('dead');
+            document.getElementById('finalScore').textContent = gameState.score;
+            document.getElementById('gameOver').classList.add('show');
+        }
+
+        // Restart game
+        function restartGame() {
+            gameState = {
+                hunger: 100,
+                happiness: 100,
+                health: 100,
+                cleanliness: 100,
+                score: 0,
+                isAlive: true,
+                foodCount: 0
+            };
+            
+            fish = {
+                x: tankWidth * 0.4,
+                y: tankHeight * 0.4,
+                targetX: tankWidth * 0.4,
+                targetY: tankHeight * 0.4,
+                speed: 2,
+                facingRight: true
+            };
+            
+            // Clear food
+            foodItems.forEach(f => f.element.remove());
+            foodItems = [];
+            
+            // Reset visuals
+            fishEl.classList.remove('dead', 'flip');
+            document.getElementById('gameOver').classList.remove('show');
+            document.getElementById('score').textContent = '0';
+            updateFishPosition();
+            updateVisuals();
+        }
+
+        // Start game
+        init();
+    </script>
+</body>
+</html>
