@@ -1,6 +1,2 @@
-[build]
-command = "cp fishtank-game.html dist/index.html"
-cwd = "./"
-
 [pages]
 build_output_dir = "dist"
