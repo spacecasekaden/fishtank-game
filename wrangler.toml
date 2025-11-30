@@ -1,3 +1,2 @@
-[build]
-command = "cp fishtank-game.html dist/index.html"  # Adjust if your file is in a different location
-cwd = "./"  # Current working directory
+[pages]
+build_output_dir = "dist"
