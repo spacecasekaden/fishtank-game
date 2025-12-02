@@ -17,26 +17,26 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            justify-content: flex-start;
+            background: linear-gradient(180deg, #0a0a1a 0%, #1a1a3e 50%, #0f2847 100%);
             font-family: 'Quicksand', sans-serif;
             overflow-x: hidden;
-            padding: 20px;
+            padding: 15px;
         }
 
         h1 {
             font-family: 'Fredoka One', cursive;
             color: #00d4ff;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-            margin-bottom: 20px;
-            font-size: 2.5rem;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5), 0 0 40px rgba(0, 212, 255, 0.3);
+            margin-bottom: 15px;
+            font-size: 2.2rem;
             letter-spacing: 2px;
             text-align: center;
         }
 
         .game-container {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             align-items: flex-start;
             max-width: 100%;
         }
@@ -46,35 +46,64 @@
         }
 
         .fish-tank {
-            width: 600px;
-            height: 450px;
+            width: 650px;
+            height: 480px;
             background: linear-gradient(180deg, 
-                rgba(0, 150, 200, 0.3) 0%, 
-                rgba(0, 100, 150, 0.5) 50%, 
-                rgba(0, 80, 120, 0.7) 100%);
-            border-radius: 20px;
-            border: 8px solid #2d4a6e;
+                rgba(0, 180, 230, 0.25) 0%, 
+                rgba(0, 120, 170, 0.45) 50%, 
+                rgba(0, 90, 140, 0.65) 100%);
+            border-radius: 20px 20px 25px 25px;
+            border: 10px solid #3d5a7a;
+            border-top: 12px solid #4a6a8a;
             position: relative;
             overflow: hidden;
             cursor: crosshair;
             box-shadow: 
-                inset 0 0 100px rgba(0, 200, 255, 0.1),
-                0 10px 40px rgba(0, 0, 0, 0.5),
-                0 0 60px rgba(0, 150, 200, 0.2);
+                inset 0 0 100px rgba(0, 200, 255, 0.15),
+                inset 0 -50px 100px rgba(0, 100, 150, 0.2),
+                0 15px 50px rgba(0, 0, 0, 0.6),
+                0 0 80px rgba(0, 150, 200, 0.25);
             touch-action: none;
         }
 
-        .fish-tank::before {
-            content: '';
+        .water-surface {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 30px;
+            height: 15px;
             background: linear-gradient(180deg, 
-                rgba(255, 255, 255, 0.2) 0%, 
+                rgba(255, 255, 255, 0.4) 0%,
+                rgba(200, 240, 255, 0.2) 50%,
                 transparent 100%);
-            border-radius: 12px 12px 0 0;
+            animation: wave 2s ease-in-out infinite;
+            z-index: 20;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(2px); }
+        }
+
+        .water-level-indicator {
+            position: absolute;
+            right: 5px;
+            top: 10px;
+            bottom: 60px;
+            width: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            z-index: 25;
+        }
+
+        .water-level-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, #4ecdc4, #00a8cc);
+            border-radius: 4px;
+            transition: height 0.5s ease;
         }
 
         .sand {
@@ -82,9 +111,13 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 50px;
-            background: linear-gradient(180deg, #d4a574 0%, #c4956a 50%, #b08560 100%);
-            border-radius: 0 0 12px 12px;
+            height: 55px;
+            background: linear-gradient(180deg, 
+                #e8c99b 0%, 
+                #d4a574 30%,
+                #c4956a 60%, 
+                #b08560 100%);
+            border-radius: 0 0 15px 15px;
         }
 
         .sand::before {
@@ -93,30 +126,41 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 8px;
+            height: 10px;
             background: linear-gradient(90deg, 
                 transparent 0%, 
-                rgba(255, 255, 255, 0.2) 20%,
-                transparent 40%,
-                rgba(255, 255, 255, 0.15) 60%,
-                transparent 80%);
+                rgba(255, 255, 255, 0.25) 15%,
+                transparent 30%,
+                rgba(255, 255, 255, 0.2) 50%,
+                transparent 65%,
+                rgba(255, 255, 255, 0.15) 80%,
+                transparent 100%);
+        }
+
+        .pebble {
+            position: absolute;
+            bottom: 45px;
+            border-radius: 50%;
+            opacity: 0.6;
         }
 
         .plant {
             position: absolute;
-            bottom: 40px;
-            width: 30px;
+            bottom: 45px;
+            width: 35px;
+            transform-origin: bottom center;
         }
 
         .plant-1 { left: 50px; }
-        .plant-2 { left: 150px; height: 100px; }
-        .plant-3 { right: 80px; }
-        .plant-4 { right: 180px; }
+        .plant-2 { left: 160px; height: 110px; }
+        .plant-3 { right: 90px; }
+        .plant-4 { right: 200px; }
 
         .plant svg {
             width: 100%;
             height: auto;
             animation: sway 3s ease-in-out infinite;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
         }
 
         .plant-2 svg { animation-delay: -0.5s; animation-duration: 3.5s; }
@@ -124,38 +168,51 @@
         .plant-4 svg { animation-delay: -1.5s; animation-duration: 3.2s; }
 
         @keyframes sway {
-            0%, 100% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); }
+            0%, 100% { transform: rotate(-4deg); }
+            50% { transform: rotate(4deg); }
         }
 
         .rock {
             position: absolute;
-            bottom: 35px;
+            bottom: 40px;
+            filter: drop-shadow(3px 3px 5px rgba(0,0,0,0.4));
         }
 
         .rock-1 {
-            left: 100px;
-            width: 60px;
-            height: 35px;
-            background: linear-gradient(135deg, #6b7b8c 0%, #4a5568 50%, #3d4852 100%);
-            border-radius: 50% 50% 45% 45%;
+            left: 110px;
+            width: 65px;
+            height: 40px;
+            background: linear-gradient(145deg, #8899aa 0%, #5a6b7c 40%, #3d4852 100%);
+            border-radius: 60% 50% 50% 45%;
+        }
+
+        .rock-1::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 15px;
+            width: 20px;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
         }
 
         .rock-2 {
-            right: 120px;
-            width: 45px;
-            height: 28px;
-            background: linear-gradient(135deg, #5a6b7c 0%, #3f4f5f 50%, #2d3a47 100%);
-            border-radius: 45% 55% 40% 50%;
+            right: 130px;
+            width: 50px;
+            height: 32px;
+            background: linear-gradient(145deg, #7788a0 0%, #4a5a6a 40%, #2d3a47 100%);
+            border-radius: 45% 60% 45% 55%;
         }
 
         .castle {
             position: absolute;
-            bottom: 40px;
+            bottom: 45px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 90px;
+            width: 90px;
+            height: 100px;
+            filter: drop-shadow(4px 4px 8px rgba(0,0,0,0.4));
         }
 
         .castle-body {
@@ -163,10 +220,23 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #b8860b 0%, #8b6914 50%, #705a12 100%);
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(145deg, #d4a84b 0%, #b8860b 30%, #8b6914 70%, #705a12 100%);
             border-radius: 5px;
+            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.3);
+        }
+
+        .castle-body::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 8px;
+            width: 8px;
+            height: 8px;
+            background: #1a1a2e;
+            border-radius: 2px;
+            box-shadow: 30px 0 0 #1a1a2e;
         }
 
         .castle-door {
@@ -174,42 +244,55 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 15px;
-            height: 25px;
-            background: #1a1a1a;
+            width: 18px;
+            height: 28px;
+            background: linear-gradient(180deg, #0a0a15 0%, #1a1a2e 100%);
             border-radius: 50% 50% 0 0;
         }
 
         .castle-tower {
             position: absolute;
-            bottom: 45px;
-            width: 20px;
-            height: 50px;
-            background: linear-gradient(135deg, #b8860b 0%, #8b6914 100%);
+            bottom: 50px;
+            width: 22px;
+            height: 55px;
+            background: linear-gradient(145deg, #d4a84b 0%, #b8860b 50%, #8b6914 100%);
             border-radius: 3px;
+            box-shadow: inset -3px -3px 10px rgba(0,0,0,0.3);
         }
 
         .castle-tower::before {
             content: '';
             position: absolute;
-            top: -12px;
+            top: -15px;
             left: 50%;
             transform: translateX(-50%);
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-bottom: 15px solid #705a12;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-bottom: 18px solid #705a12;
+        }
+
+        .castle-tower::after {
+            content: '';
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 10px;
+            background: #8b6914;
         }
 
         .castle-tower.left { left: 5px; }
         .castle-tower.right { right: 5px; }
 
+        /* Fish styling */
         .fish {
             position: absolute;
-            width: 70px;
-            height: 50px;
-            transition: transform 0.1s ease;
+            width: 75px;
+            height: 55px;
+            transition: transform 0.15s ease;
             z-index: 10;
-            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
         }
 
         .fish.flip {
@@ -218,35 +301,79 @@
 
         .fish.dead {
             transform: rotate(180deg) !important;
-            filter: grayscale(0.5) drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+            filter: grayscale(0.7) brightness(0.8) drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
         }
 
         .fish.eating .fish-mouth {
             animation: chomp 0.15s ease-in-out 4;
         }
 
+        .fish.overfed {
+            transform: scale(1.3);
+            filter: hue-rotate(20deg) drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+        }
+
+        .fish.escaped {
+            animation: flop 0.3s ease-in-out infinite;
+            filter: brightness(0.7) drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+        }
+
+        @keyframes flop {
+            0%, 100% { transform: rotate(-10deg) scaleY(1); }
+            50% { transform: rotate(10deg) scaleY(0.9); }
+        }
+
         @keyframes chomp {
-            0%, 100% { 
-                transform: scale(1, 1);
-            }
-            50% { 
-                transform: scale(1.8, 0.3);
-            }
+            0%, 100% { transform: scale(1, 1); }
+            50% { transform: scale(1.8, 0.3); }
+        }
+
+        /* Cleaner animals */
+        .snail {
+            position: absolute;
+            width: 30px;
+            height: 25px;
+            z-index: 8;
+            transition: transform 0.1s ease;
+        }
+
+        .snail.flip {
+            transform: scaleX(-1);
+        }
+
+        .pleco {
+            position: absolute;
+            width: 50px;
+            height: 25px;
+            z-index: 8;
+            transition: transform 0.1s ease;
+        }
+
+        .pleco.flip {
+            transform: scaleX(-1);
+        }
+
+        .shrimp {
+            position: absolute;
+            width: 25px;
+            height: 15px;
+            z-index: 8;
         }
 
         .bubble {
             position: absolute;
             background: radial-gradient(circle at 30% 30%, 
-                rgba(255, 255, 255, 0.8) 0%, 
-                rgba(200, 230, 255, 0.4) 50%, 
-                rgba(150, 200, 255, 0.2) 100%);
+                rgba(255, 255, 255, 0.9) 0%, 
+                rgba(200, 240, 255, 0.5) 40%, 
+                rgba(150, 220, 255, 0.2) 100%);
             border-radius: 50%;
             animation: rise 4s ease-in forwards;
             pointer-events: none;
+            box-shadow: inset -2px -2px 4px rgba(0,100,150,0.2);
         }
 
         @keyframes rise {
-            0% { opacity: 0.8; }
+            0% { opacity: 0.9; }
             100% { 
                 transform: translateY(-400px);
                 opacity: 0;
@@ -255,34 +382,350 @@
 
         .food {
             position: absolute;
-            width: 8px;
-            height: 8px;
-            background: radial-gradient(circle, #ff9966 0%, #ff6633 100%);
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle at 30% 30%, #ffcc66 0%, #ff9933 50%, #e67300 100%);
             border-radius: 50%;
-            animation: fall 3s ease-in forwards;
             z-index: 5;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35), inset -1px -1px 3px rgba(0,0,0,0.2);
         }
 
-        @keyframes fall {
+        .food.sinking {
+            animation: sink 4s ease-in forwards;
+        }
+
+        @keyframes sink {
             0% { opacity: 1; }
             100% { 
-                transform: translateY(350px);
-                opacity: 0.5;
+                transform: translateY(380px);
+                opacity: 0.6;
             }
         }
 
+        /* Cleaning animation */
+        .cleaning-brush {
+            position: absolute;
+            width: 60px;
+            height: 120px;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .cleaning-brush.active {
+            opacity: 1;
+            animation: scrub 0.5s ease-in-out infinite;
+        }
+
+        @keyframes scrub {
+            0%, 100% { transform: translateX(-10px) rotate(-5deg); }
+            50% { transform: translateX(10px) rotate(5deg); }
+        }
+
+        .clean-sparkle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+            animation: sparkle 0.6s ease-out forwards;
+        }
+
+        @keyframes sparkle {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1.5) rotate(180deg); opacity: 0; }
+        }
+
+        /* Decorations */
+        .decoration {
+            position: absolute;
+            z-index: 3;
+            filter: drop-shadow(2px 3px 5px rgba(0,0,0,0.3));
+        }
+
+        .decoration-slots {
+            position: absolute;
+            bottom: 55px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 60px;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .deco-slot {
+            width: 50px;
+            height: 50px;
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            pointer-events: auto;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .deco-slot:hover {
+            border-color: rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .deco-slot.filled {
+            border: none;
+            cursor: default;
+        }
+
+        .coral {
+            bottom: 45px;
+        }
+
+        /* Fish customization styles */
+        .fish-preview {
+            width: 120px;
+            height: 90px;
+            margin: 15px auto;
+            position: relative;
+        }
+
+        .color-options, .pattern-options, .accessory-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .color-option {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .color-option:hover, .color-option.selected {
+            border-color: white;
+            transform: scale(1.15);
+        }
+
+        .pattern-option, .accessory-option {
+            padding: 8px 12px;
+            background: linear-gradient(145deg, #2d5a87 0%, #1e3a5f 100%);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: white;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .pattern-option:hover, .pattern-option.selected,
+        .accessory-option:hover, .accessory-option.selected {
+            border-color: #4ecdc4;
+        }
+
+        .pattern-option.locked, .accessory-option.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Premium tank styles */
+        .premium-section {
+            background: linear-gradient(145deg, #4a3f0a 0%, #2a2505 100%);
+            border: 2px solid #ffd700;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .premium-title {
+            color: #ffd700;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .premium-desc {
+            color: #ccc;
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+        }
+
+        .btn-premium {
+            background: linear-gradient(145deg, #ffd700 0%, #ff8c00 100%);
+            color: #000;
+            font-weight: bold;
+            padding: 12px 25px;
+        }
+
+        .fish-count {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.6);
+            padding: 5px 15px;
+            border-radius: 15px;
+            color: #4ecdc4;
+            font-size: 0.85rem;
+            z-index: 25;
+        }
+
+        /* Big tank styles */
+        .fish-tank.big-tank {
+            width: 850px;
+            height: 550px;
+        }
+
+        @media (max-width: 900px) {
+            .fish-tank.big-tank {
+                width: calc(100vw - 20px);
+                max-width: 850px;
+                height: calc((100vw - 20px) * 0.65);
+                max-height: 550px;
+            }
+        }
+
+        .fish-accessory {
+            position: absolute;
+            font-size: 18px;
+            z-index: 11;
+            pointer-events: none;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
+        }
+
+        .treasure {
+            position: absolute;
+            bottom: 50px;
+            right: 45px;
+            width: 40px;
+            height: 30px;
+            filter: drop-shadow(3px 3px 6px rgba(0,0,0,0.4));
+        }
+
+        .treasure-box {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #ffd700 0%, #daa520 30%, #b8860b 70%, #8b6914 100%);
+            border-radius: 4px 4px 6px 6px;
+            position: relative;
+            box-shadow: inset -3px -3px 8px rgba(0,0,0,0.3);
+        }
+
+        .treasure-box::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 4px;
+            right: 4px;
+            height: 12px;
+            background: linear-gradient(145deg, #ffd700 0%, #daa520 50%, #b8860b 100%);
+            border-radius: 4px 4px 0 0;
+        }
+
+        .treasure-box::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: #654321;
+            border-radius: 2px;
+        }
+
+        /* Dirty overlay */
+        .dirty-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(80, 100, 60, 0);
+            pointer-events: none;
+            transition: background 1s ease;
+            border-radius: 10px;
+        }
+
+        /* Escaped fish area */
+        .outside-tank {
+            position: absolute;
+            top: -60px;
+            left: 0;
+            right: 0;
+            height: 60px;
+            pointer-events: none;
+        }
+
+        /* Warning indicators */
+        .warning-icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            animation: pulse 0.5s ease-in-out infinite;
+            z-index: 30;
+            display: none;
+        }
+
+        .warning-icon.show {
+            display: block;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        /* Stats panel */
         .stats-panel {
-            background: linear-gradient(135deg, #1e3a5f 0%, #0d2137 100%);
-            padding: 25px;
+            background: linear-gradient(145deg, #1e3a5f 0%, #0d2137 100%);
+            padding: 20px;
             border-radius: 15px;
             border: 3px solid #2d5a87;
-            min-width: 200px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+
+        .coin-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            background: linear-gradient(145deg, #4a3f0a 0%, #2a2505 100%);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #8b7500;
+        }
+
+        .coin-icon {
+            font-size: 1.8rem;
+            animation: coinSpin 3s linear infinite;
+        }
+
+        @keyframes coinSpin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        .coin-value {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.6rem;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
         .stat {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .stat:last-child {
@@ -292,19 +735,19 @@
         .stat-label {
             color: #7ec8e3;
             font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .stat-icon {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .stat-bar {
-            height: 20px;
+            height: 18px;
             background: #0a1628;
             border-radius: 10px;
             overflow: hidden;
@@ -324,8 +767,8 @@
             top: 2px;
             left: 5px;
             right: 5px;
-            height: 6px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);
+            height: 5px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.35) 0%, transparent 100%);
             border-radius: 3px;
         }
 
@@ -345,92 +788,249 @@
             background: linear-gradient(90deg, #4ecdc4, #45b7aa);
         }
 
+        .water-fill {
+            background: linear-gradient(90deg, #00b4d8, #0077b6);
+        }
+
         .controls {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 8px;
+            margin-top: 15px;
         }
 
         .btn {
-            padding: 12px 20px;
+            padding: 10px 16px;
             border: none;
             border-radius: 10px;
             font-family: 'Quicksand', sans-serif;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             gap: 8px;
             justify-content: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
         }
 
-        .btn:hover {
+        .btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
         }
 
-        .btn:active {
+        .btn:active:not(:disabled) {
             transform: translateY(0);
         }
 
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         .btn-feed {
-            background: linear-gradient(135deg, #ff9966 0%, #ff6633 100%);
+            background: linear-gradient(145deg, #ff9966 0%, #ff6633 100%);
             color: white;
         }
 
         .btn-clean {
-            background: linear-gradient(135deg, #4ecdc4 0%, #45b7aa 100%);
+            background: linear-gradient(145deg, #4ecdc4 0%, #45b7aa 100%);
             color: white;
         }
 
         .btn-play {
-            background: linear-gradient(135deg, #ffd93d 0%, #f9c80e 100%);
+            background: linear-gradient(145deg, #ffd93d 0%, #f9c80e 100%);
             color: #333;
+        }
+
+        .btn-water {
+            background: linear-gradient(145deg, #00b4d8 0%, #0077b6 100%);
+            color: white;
+        }
+
+        .btn-shop {
+            background: linear-gradient(145deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
         }
 
         .score-display {
             text-align: center;
-            padding: 15px;
-            background: linear-gradient(135deg, #2d5a87 0%, #1e3a5f 100%);
+            padding: 12px;
+            background: linear-gradient(145deg, #2d5a87 0%, #1e3a5f 100%);
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .score-label {
             color: #7ec8e3;
-            font-size: 0.8rem;
-            margin-bottom: 5px;
+            font-size: 0.75rem;
+            margin-bottom: 4px;
         }
 
         .score-value {
             font-family: 'Fredoka One', cursive;
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #00d4ff;
             text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
         }
 
         .fish-name {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .fish-name span {
             font-family: 'Fredoka One', cursive;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: #ffb347;
             text-shadow: 0 0 10px rgba(255, 179, 71, 0.5);
         }
 
+        /* Shop Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .shop-modal {
+            background: linear-gradient(145deg, #1e3a5f 0%, #0d2137 100%);
+            border-radius: 20px;
+            border: 3px solid #2d5a87;
+            padding: 25px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.show .shop-modal {
+            transform: scale(1);
+        }
+
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .shop-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.8rem;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .close-btn {
+            background: #ff6b6b;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .shop-section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.1rem;
+            color: #4ecdc4;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #2d5a87;
+        }
+
+        .shop-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .shop-item {
+            background: linear-gradient(145deg, #2d5a87 0%, #1e3a5f 100%);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .shop-item:hover:not(.owned):not(.disabled) {
+            border-color: #4ecdc4;
+            transform: translateY(-3px);
+        }
+
+        .shop-item.owned {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .shop-item.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .item-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .item-name {
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .item-price {
+            color: #ffd700;
+            font-family: 'Fredoka One', cursive;
+            font-size: 0.9rem;
+        }
+
+        .item-owned {
+            color: #4ade80;
+            font-size: 0.8rem;
+        }
+
+        /* Game Over Screen */
         .game-over {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -452,6 +1052,13 @@
             font-size: 2.5rem;
             color: #ff6b6b;
             margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .death-reason {
+            color: #ffaa00;
+            font-size: 1rem;
+            margin-bottom: 10px;
         }
 
         .game-over p {
@@ -461,7 +1068,7 @@
         }
 
         .btn-restart {
-            background: linear-gradient(135deg, #6bcb77 0%, #4ade80 100%);
+            background: linear-gradient(145deg, #6bcb77 0%, #4ade80 100%);
             color: white;
             padding: 15px 40px;
             font-size: 1.1rem;
@@ -469,50 +1076,15 @@
 
         .instructions {
             color: #5a8ab0;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: center;
-            margin-top: 20px;
-            max-width: 600px;
+            margin-top: 15px;
+            max-width: 700px;
+            line-height: 1.4;
         }
 
-        .dirty-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(80, 100, 60, 0);
-            pointer-events: none;
-            transition: background 1s ease;
-            border-radius: 12px;
-        }
-
-        .treasure {
-            position: absolute;
-            bottom: 45px;
-            right: 40px;
-            width: 35px;
-            height: 25px;
-            background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
-            border-radius: 3px 3px 5px 5px;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        .treasure::before {
-            content: '';
-            position: absolute;
-            top: -8px;
-            left: 5px;
-            right: 5px;
-            height: 10px;
-            background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
-            border-radius: 3px 3px 0 0;
-        }
-
-        /* ==================== RESPONSIVE STYLES ==================== */
-        
-        /* Tablet and smaller desktop */
-        @media (max-width: 900px) {
+        /* Responsive styles */
+        @media (max-width: 950px) {
             .game-container {
                 flex-direction: column;
                 align-items: center;
@@ -520,7 +1092,7 @@
             
             .stats-panel {
                 width: 100%;
-                max-width: 600px;
+                max-width: 650px;
             }
             
             .controls {
@@ -531,261 +1103,75 @@
             
             .controls .btn {
                 flex: 1;
-                min-width: 120px;
+                min-width: 100px;
             }
         }
-        
-        /* Mobile landscape and small tablets */
-        @media (max-width: 650px) {
+
+        @media (max-width: 680px) {
             body {
                 padding: 10px;
-                justify-content: flex-start;
             }
             
             h1 {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
                 margin-bottom: 10px;
             }
             
             .fish-tank {
                 width: calc(100vw - 20px);
-                max-width: 600px;
-                height: calc((100vw - 20px) * 0.75);
-                max-height: 450px;
-                border-width: 5px;
+                max-width: 650px;
+                height: calc((100vw - 20px) * 0.74);
+                max-height: 480px;
+                border-width: 6px;
             }
             
-            .sand {
-                height: 35px;
-            }
+            .sand { height: 40px; }
             
             .plant {
-                width: 20px;
-                bottom: 28px;
+                width: 22px;
+                bottom: 32px;
             }
             
             .plant-1 { left: 8%; }
             .plant-2 { left: 25%; }
-            .plant-3 { right: 13%; }
-            .plant-4 { right: 30%; }
+            .plant-3 { right: 14%; }
+            .plant-4 { right: 32%; }
             
-            .rock { bottom: 25px; }
-            .rock-1 { 
-                left: 15%; 
-                width: 45px; 
-                height: 25px; 
-            }
-            .rock-2 { 
-                right: 20%; 
-                width: 35px; 
-                height: 20px; 
-            }
+            .rock { bottom: 28px; }
+            .rock-1 { left: 16%; width: 50px; height: 30px; }
+            .rock-2 { right: 20%; width: 40px; height: 24px; }
             
             .castle {
-                width: 60px;
-                height: 70px;
-                bottom: 28px;
+                width: 65px;
+                height: 75px;
+                bottom: 32px;
             }
             
-            .castle-body {
-                width: 38px;
-                height: 38px;
-            }
-            
-            .castle-door {
-                width: 12px;
-                height: 20px;
-            }
-            
-            .castle-tower {
-                width: 15px;
-                height: 38px;
-                bottom: 34px;
-            }
-            
-            .castle-tower::before {
-                border-left-width: 9px;
-                border-right-width: 9px;
-                border-bottom-width: 12px;
-            }
+            .castle-body { width: 42px; height: 42px; }
+            .castle-door { width: 14px; height: 22px; }
+            .castle-tower { width: 17px; height: 42px; bottom: 38px; }
             
             .treasure {
-                width: 28px;
-                height: 20px;
-                bottom: 32px;
-                right: 6%;
-            }
-            
-            .fish {
-                width: 55px;
-                height: 40px;
-            }
-            
-            .stats-panel {
-                padding: 15px;
-                width: calc(100vw - 20px);
-            }
-            
-            .fish-name span {
-                font-size: 1.2rem;
-            }
-            
-            .score-display {
-                padding: 10px;
-                margin-bottom: 12px;
-            }
-            
-            .score-value {
-                font-size: 1.5rem;
-            }
-            
-            .stat {
-                margin-bottom: 12px;
-            }
-            
-            .stat-label {
-                font-size: 0.8rem;
-                margin-bottom: 5px;
-            }
-            
-            .stat-bar {
-                height: 16px;
-            }
-            
-            .controls {
-                gap: 8px;
-                margin-top: 12px;
-            }
-            
-            .controls .btn {
-                padding: 10px 15px;
-                font-size: 0.85rem;
-            }
-            
-            .instructions {
-                font-size: 0.75rem;
-                margin-top: 12px;
-                padding: 0 10px;
-            }
-            
-            .game-over h2 {
-                font-size: 1.8rem;
-            }
-            
-            .game-over p {
-                font-size: 1rem;
-            }
-            
-            .btn-restart {
-                padding: 12px 30px;
-                font-size: 1rem;
-            }
-        }
-        
-        /* Small mobile phones */
-        @media (max-width: 400px) {
-            h1 {
-                font-size: 1.3rem;
-            }
-            
-            .fish-tank {
-                height: calc((100vw - 20px) * 0.8);
-                border-width: 4px;
-            }
-            
-            .fish {
-                width: 45px;
-                height: 32px;
-            }
-            
-            .castle {
-                width: 50px;
-                height: 55px;
-            }
-            
-            .castle-body {
                 width: 32px;
-                height: 32px;
+                height: 24px;
+                bottom: 36px;
+                right: 7%;
             }
             
-            .castle-tower {
-                width: 12px;
-                height: 30px;
-                bottom: 28px;
-            }
+            .fish { width: 55px; height: 42px; }
+            .snail { width: 22px; height: 18px; }
+            .pleco { width: 38px; height: 18px; }
             
-            .controls .btn {
-                padding: 10px 12px;
-                font-size: 0.75rem;
-                min-width: 90px;
-            }
-            
-            .stat-label {
-                font-size: 0.75rem;
-            }
-            
-            .stat-icon {
-                font-size: 1rem;
-            }
-            
-            .fish-name span {
-                font-size: 1rem;
-            }
-            
-            .score-value {
-                font-size: 1.3rem;
-            }
+            .stats-panel { padding: 15px; }
+            .controls .btn { padding: 10px 12px; font-size: 0.75rem; }
         }
-        
-        /* Landscape mode on mobile */
-        @media (max-height: 500px) and (orientation: landscape) {
-            body {
-                padding: 5px 10px;
-            }
-            
-            h1 {
-                font-size: 1.2rem;
-                margin-bottom: 5px;
-            }
-            
-            .game-container {
-                flex-direction: row;
-                align-items: flex-start;
-            }
-            
-            .fish-tank {
-                width: 55vw;
-                height: calc(100vh - 40px);
-                max-height: none;
-            }
-            
-            .stats-panel {
-                width: auto;
-                min-width: 150px;
-                max-width: 35vw;
-                padding: 10px;
-            }
-            
-            .stat {
-                margin-bottom: 8px;
-            }
-            
-            .stat-bar {
-                height: 14px;
-            }
-            
-            .controls {
-                flex-direction: column;
-            }
-            
-            .controls .btn {
-                padding: 8px 10px;
-                font-size: 0.75rem;
-            }
-            
-            .instructions {
-                display: none;
-            }
+
+        @media (max-width: 420px) {
+            h1 { font-size: 1.2rem; }
+            .fish-tank { border-width: 5px; }
+            .fish { width: 45px; height: 35px; }
+            .castle { width: 50px; height: 60px; }
+            .controls .btn { padding: 8px 10px; font-size: 0.7rem; min-width: 80px; }
         }
     </style>
 </head>
@@ -794,32 +1180,52 @@
     
     <div class="game-container">
         <div class="tank-wrapper">
+            <div class="outside-tank" id="outsideTank"></div>
             <div class="fish-tank" id="tank">
+                <div class="water-surface" id="waterSurface"></div>
                 <div class="dirty-overlay" id="dirtyOverlay"></div>
+                <div class="warning-icon" id="warningIcon">⚠️</div>
                 
-                <!-- Decorations -->
+                <div class="water-level-indicator">
+                    <div class="water-level-fill" id="waterLevelFill" style="height: 100%"></div>
+                </div>
+                
+                <!-- Cleaning brush animation -->
+                <svg class="cleaning-brush" id="cleaningBrush" viewBox="0 0 60 120">
+                    <rect x="25" y="0" width="10" height="60" fill="#8B4513" rx="2"/>
+                    <rect x="5" y="55" width="50" height="25" fill="#4a90d9" rx="5"/>
+                    <rect x="8" y="80" width="6" height="35" fill="#2d5a87" rx="1"/>
+                    <rect x="18" y="80" width="6" height="38" fill="#2d5a87" rx="1"/>
+                    <rect x="28" y="80" width="6" height="35" fill="#2d5a87" rx="1"/>
+                    <rect x="38" y="80" width="6" height="38" fill="#2d5a87" rx="1"/>
+                    <rect x="48" y="80" width="6" height="35" fill="#2d5a87" rx="1"/>
+                </svg>
+                
+                <!-- Plants -->
                 <div class="plant plant-1">
-                    <svg viewBox="0 0 30 80" fill="none">
-                        <path d="M15 80 Q10 60 15 40 Q8 50 5 30 Q12 40 15 20 Q10 25 8 10 Q15 18 15 0" stroke="#2d8a4e" stroke-width="3" fill="none"/>
-                        <path d="M15 80 Q20 60 15 40 Q22 50 25 30 Q18 40 15 20 Q20 25 22 10 Q15 18 15 0" stroke="#3da55d" stroke-width="3" fill="none"/>
+                    <svg viewBox="0 0 35 90" fill="none">
+                        <path d="M17 90 Q10 65 17 42 Q6 55 3 30 Q14 45 17 18 Q9 25 6 8 Q17 18 17 0" stroke="#1d6b3a" stroke-width="4" fill="none"/>
+                        <path d="M17 90 Q24 65 17 42 Q28 55 32 30 Q21 45 17 18 Q25 25 29 8 Q17 18 17 0" stroke="#2d8a4e" stroke-width="4" fill="none"/>
+                        <circle cx="5" cy="35" r="4" fill="#2d8a4e" opacity="0.6"/>
+                        <circle cx="30" cy="28" r="3" fill="#3da55d" opacity="0.6"/>
                     </svg>
                 </div>
                 <div class="plant plant-2">
-                    <svg viewBox="0 0 30 100" fill="none">
-                        <path d="M15 100 Q8 75 15 50 Q5 65 2 35 Q12 50 15 25 Q8 32 5 12 Q15 22 15 0" stroke="#267d42" stroke-width="3" fill="none"/>
-                        <path d="M15 100 Q22 75 15 50 Q25 65 28 35 Q18 50 15 25 Q22 32 25 12 Q15 22 15 0" stroke="#32a852" stroke-width="3" fill="none"/>
+                    <svg viewBox="0 0 35 110" fill="none">
+                        <path d="M17 110 Q8 80 17 52 Q3 68 0 32 Q14 52 17 22 Q7 32 3 10 Q17 22 17 0" stroke="#1a5c32" stroke-width="4" fill="none"/>
+                        <path d="M17 110 Q26 80 17 52 Q31 68 35 32 Q21 52 17 22 Q27 32 32 10 Q17 22 17 0" stroke="#267d42" stroke-width="4" fill="none"/>
                     </svg>
                 </div>
                 <div class="plant plant-3">
-                    <svg viewBox="0 0 30 70" fill="none">
-                        <path d="M15 70 Q12 55 15 40 Q10 48 8 28 Q14 38 15 18 Q11 23 10 8 Q15 15 15 0" stroke="#2d8a4e" stroke-width="2" fill="none"/>
-                        <path d="M15 70 Q18 55 15 40 Q20 48 22 28 Q16 38 15 18 Q19 23 20 8 Q15 15 15 0" stroke="#3da55d" stroke-width="2" fill="none"/>
+                    <svg viewBox="0 0 30 75" fill="none">
+                        <path d="M15 75 Q11 58 15 40 Q8 50 5 28 Q13 40 15 16 Q10 22 7 6 Q15 14 15 0" stroke="#1d6b3a" stroke-width="3" fill="none"/>
+                        <path d="M15 75 Q19 58 15 40 Q22 50 25 28 Q17 40 15 16 Q20 22 23 6 Q15 14 15 0" stroke="#2d8a4e" stroke-width="3" fill="none"/>
                     </svg>
                 </div>
                 <div class="plant plant-4">
-                    <svg viewBox="0 0 30 60" fill="none">
-                        <path d="M15 60 Q11 48 15 35 Q9 42 7 25 Q13 33 15 15 Q11 20 9 8 Q15 13 15 0" stroke="#267d42" stroke-width="2" fill="none"/>
-                        <path d="M15 60 Q19 48 15 35 Q21 42 23 25 Q17 33 15 15 Q19 20 21 8 Q15 13 15 0" stroke="#32a852" stroke-width="2" fill="none"/>
+                    <svg viewBox="0 0 30 65" fill="none">
+                        <path d="M15 65 Q10 50 15 35 Q7 44 5 24 Q12 35 15 14 Q10 19 8 6 Q15 12 15 0" stroke="#1a5c32" stroke-width="3" fill="none"/>
+                        <path d="M15 65 Q20 50 15 35 Q23 44 25 24 Q18 35 15 14 Q20 19 22 6 Q15 12 15 0" stroke="#267d42" stroke-width="3" fill="none"/>
                     </svg>
                 </div>
                 
@@ -834,61 +1240,95 @@
                     </div>
                 </div>
                 
-                <div class="treasure"></div>
+                <div class="treasure">
+                    <div class="treasure-box"></div>
+                </div>
+                
+                <!-- Decoration slots -->
+                <div class="decoration-slots" id="decoSlots">
+                    <div class="deco-slot" data-slot="0" onclick="selectDecoSlot(0)"></div>
+                    <div class="deco-slot" data-slot="1" onclick="selectDecoSlot(1)"></div>
+                    <div class="deco-slot" data-slot="2" onclick="selectDecoSlot(2)"></div>
+                    <div class="deco-slot" data-slot="3" onclick="selectDecoSlot(3)"></div>
+                    <div class="deco-slot" data-slot="4" onclick="selectDecoSlot(4)"></div>
+                </div>
+                
+                <div class="fish-count" id="fishCount">🐟 1/1 Fish</div>
                 
                 <div class="sand"></div>
                 
-                <!-- Fish -->
-                <svg class="fish" id="fish" viewBox="0 0 70 50">
+                <!-- Fish SVG -->
+                <svg class="fish" id="fish" viewBox="0 0 75 55">
                     <defs>
                         <linearGradient id="fishGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#ff9a56"/>
-                            <stop offset="50%" style="stop-color:#ff6b35"/>
-                            <stop offset="100%" style="stop-color:#f54d21"/>
+                            <stop offset="0%" style="stop-color:#ffb366"/>
+                            <stop offset="30%" style="stop-color:#ff8533"/>
+                            <stop offset="70%" style="stop-color:#ff6600"/>
+                            <stop offset="100%" style="stop-color:#cc5200"/>
                         </linearGradient>
                         <linearGradient id="finGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#ff7849"/>
-                            <stop offset="100%" style="stop-color:#e84118"/>
+                            <stop offset="0%" style="stop-color:#ff9966"/>
+                            <stop offset="100%" style="stop-color:#e64d00"/>
                         </linearGradient>
+                        <linearGradient id="bellyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ffcc99"/>
+                            <stop offset="100%" style="stop-color:#ffaa66"/>
+                        </linearGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
                     </defs>
-                    <!-- Tail -->
-                    <path d="M5 25 Q0 15 8 10 Q12 20 12 25 Q12 30 8 40 Q0 35 5 25" fill="url(#finGrad)">
-                        <animate attributeName="d" dur="0.3s" repeatCount="indefinite"
-                            values="M5 25 Q0 15 8 10 Q12 20 12 25 Q12 30 8 40 Q0 35 5 25;
-                                    M5 25 Q0 18 8 15 Q12 22 12 25 Q12 28 8 35 Q0 32 5 25;
-                                    M5 25 Q0 15 8 10 Q12 20 12 25 Q12 30 8 40 Q0 35 5 25"/>
+                    <!-- Tail fin -->
+                    <path d="M5 27 Q-2 15 10 8 Q14 22 14 27 Q14 32 10 46 Q-2 39 5 27" fill="url(#finGrad)">
+                        <animate attributeName="d" dur="0.25s" repeatCount="indefinite"
+                            values="M5 27 Q-2 15 10 8 Q14 22 14 27 Q14 32 10 46 Q-2 39 5 27;
+                                    M5 27 Q0 18 10 13 Q14 24 14 27 Q14 30 10 41 Q0 36 5 27;
+                                    M5 27 Q-2 15 10 8 Q14 22 14 27 Q14 32 10 46 Q-2 39 5 27"/>
                     </path>
                     <!-- Body -->
-                    <ellipse cx="35" cy="25" rx="25" ry="18" fill="url(#fishGrad)"/>
-                    <!-- Top fin -->
-                    <path d="M30 8 Q35 0 45 5 Q40 12 35 10 Z" fill="url(#finGrad)">
-                        <animate attributeName="d" dur="0.5s" repeatCount="indefinite"
-                            values="M30 8 Q35 0 45 5 Q40 12 35 10 Z;
-                                    M30 8 Q35 2 45 7 Q40 12 35 10 Z;
-                                    M30 8 Q35 0 45 5 Q40 12 35 10 Z"/>
+                    <ellipse cx="38" cy="27" rx="28" ry="20" fill="url(#fishGrad)"/>
+                    <!-- Belly -->
+                    <ellipse cx="40" cy="32" rx="18" ry="10" fill="url(#bellyGrad)" opacity="0.5"/>
+                    <!-- Dorsal fin -->
+                    <path d="M32 8 Q38 -2 50 4 Q45 12 38 10 Z" fill="url(#finGrad)">
+                        <animate attributeName="d" dur="0.4s" repeatCount="indefinite"
+                            values="M32 8 Q38 -2 50 4 Q45 12 38 10 Z;
+                                    M32 8 Q38 1 50 6 Q45 12 38 10 Z;
+                                    M32 8 Q38 -2 50 4 Q45 12 38 10 Z"/>
                     </path>
-                    <!-- Bottom fin -->
-                    <path d="M30 42 Q35 48 42 45 Q38 40 33 41 Z" fill="url(#finGrad)"/>
-                    <!-- Side fin -->
-                    <ellipse cx="32" cy="28" rx="8" ry="4" fill="url(#finGrad)" opacity="0.8">
-                        <animate attributeName="ry" dur="0.4s" repeatCount="indefinite"
-                            values="4;3;4"/>
+                    <!-- Anal fin -->
+                    <path d="M32 46 Q38 54 46 50 Q42 44 36 45 Z" fill="url(#finGrad)"/>
+                    <!-- Pectoral fin -->
+                    <ellipse cx="35" cy="32" rx="10" ry="5" fill="url(#finGrad)" opacity="0.85">
+                        <animate attributeName="ry" dur="0.35s" repeatCount="indefinite" values="5;3.5;5"/>
                     </ellipse>
-                    <!-- Eye -->
-                    <circle cx="48" cy="20" r="7" fill="white"/>
-                    <circle cx="50" cy="20" r="4" fill="#1a1a2e"/>
-                    <circle cx="51" cy="18" r="1.5" fill="white"/>
-                    <!-- Mouth -->
-                    <ellipse class="fish-mouth" cx="58" cy="27" rx="3" ry="2" fill="#d63031" opacity="0.8"/>
                     <!-- Scales pattern -->
-                    <path d="M25 20 Q30 18 35 20 Q30 22 25 20" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-                    <path d="M30 28 Q35 26 40 28 Q35 30 30 28" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-                    <path d="M20 25 Q25 23 30 25 Q25 27 20 25" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                    <path d="M25 22 Q32 19 38 22 Q32 25 25 22" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+                    <path d="M32 30 Q39 27 46 30 Q39 33 32 30" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+                    <path d="M20 28 Q27 25 33 28 Q27 31 20 28" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+                    <path d="M40 22 Q46 20 52 22 Q46 24 40 22" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                    <!-- Eye -->
+                    <ellipse cx="54" cy="22" rx="8" ry="9" fill="white"/>
+                    <circle cx="56" cy="22" r="5" fill="#1a1a2e"/>
+                    <circle cx="57" cy="20" r="2" fill="white"/>
+                    <ellipse cx="54" cy="22" rx="8" ry="9" fill="none" stroke="#ddd" stroke-width="0.5"/>
+                    <!-- Eyebrow/lid hint -->
+                    <path d="M48 16 Q54 14 60 16" fill="none" stroke="#cc5200" stroke-width="1" opacity="0.5"/>
+                    <!-- Mouth -->
+                    <ellipse class="fish-mouth" cx="64" cy="30" rx="4" ry="2.5" fill="#cc3300" opacity="0.85"/>
+                    <!-- Gill -->
+                    <path d="M45 25 Q43 30 45 35" fill="none" stroke="#cc5200" stroke-width="1.5" opacity="0.4"/>
                 </svg>
                 
                 <div class="game-over" id="gameOver">
                     <h2>Game Over</h2>
-                    <p>Bubbles survived for <span id="finalScore">0</span> seconds</p>
+                    <p class="death-reason" id="deathReason">Bubbles has passed away</p>
+                    <p>Survived for <span id="finalScore">0</span> seconds</p>
+                    <p>Earned <span id="finalCoins">0</span> coins</p>
                     <button class="btn btn-restart" onclick="restartGame()">🔄 Try Again</button>
                 </div>
             </div>
@@ -897,6 +1337,11 @@
         <div class="stats-panel">
             <div class="fish-name">
                 <span>🐟 Bubbles</span>
+            </div>
+            
+            <div class="coin-display">
+                <span class="coin-icon">🪙</span>
+                <span class="coin-value" id="coins">0</span>
             </div>
             
             <div class="score-display">
@@ -908,6 +1353,13 @@
                 <div class="stat-label"><span class="stat-icon">🍖</span> Hunger</div>
                 <div class="stat-bar">
                     <div class="stat-fill hunger-fill" id="hungerBar" style="width: 100%"></div>
+                </div>
+            </div>
+            
+            <div class="stat">
+                <div class="stat-label"><span class="stat-icon">💧</span> Water Level</div>
+                <div class="stat-bar">
+                    <div class="stat-fill water-fill" id="waterBar" style="width: 100%"></div>
                 </div>
             </div>
             
@@ -926,96 +1378,326 @@
             </div>
             
             <div class="stat">
-                <div class="stat-label"><span class="stat-icon">💧</span> Water Quality</div>
+                <div class="stat-label"><span class="stat-icon">✨</span> Water Quality</div>
                 <div class="stat-bar">
                     <div class="stat-fill cleanliness-fill" id="cleanlinessBar" style="width: 100%"></div>
                 </div>
             </div>
             
             <div class="controls">
-                <button class="btn btn-feed" onclick="dropFood()">🍕 Drop Food</button>
-                <button class="btn btn-clean" onclick="cleanTank()">🧹 Clean Tank</button>
+                <button class="btn btn-feed" onclick="dropFood()" id="feedBtn">🍕 Feed</button>
+                <button class="btn btn-water" onclick="addWater()" id="waterBtn">💧 Water (<span id="waterBottles">3</span>)</button>
+                <button class="btn btn-clean" onclick="cleanTank()">🧹 Clean</button>
                 <button class="btn btn-play" onclick="playWithFish()">🎾 Play</button>
+                <button class="btn btn-shop" onclick="openShop()">🛒 Shop</button>
+                <button class="btn" style="background: linear-gradient(145deg, #e056fd 0%, #be2edd 100%); color: white;" onclick="openCustomize()">🎨 Customize</button>
             </div>
         </div>
     </div>
     
     <p class="instructions">
-        Tap anywhere in the tank to drop food! Keep Bubbles fed, happy, and healthy to survive as long as possible.
-        <br>Clean the tank regularly to maintain water quality. Play with Bubbles to boost happiness!
+        🐠 Keep Bubbles alive! Feed wisely - overfeeding kills! 💀 Water evaporates - buy bottles in shop!
+        <br>🎨 Customize your fish! 🏰 Place decorations in slots. 💰 Earn 10 coins every 10 seconds.
+        <br>💎 Get the premium Big Tank to hold up to 9 fish! 🐌 Buy cleaner animals to help maintain tank.
     </p>
+
+    <!-- Shop Modal -->
+    <div class="modal-overlay" id="shopModal">
+        <div class="shop-modal">
+            <div class="shop-header">
+                <h2 class="shop-title">🛒 Fish Shop</h2>
+                <button class="close-btn" onclick="closeShop()">✕</button>
+            </div>
+            
+            <div class="shop-section">
+                <h3 class="section-title">💧 Water & Supplies</h3>
+                <div class="shop-items" id="supplyItems"></div>
+            </div>
+            
+            <div class="shop-section">
+                <h3 class="section-title">🐌 Cleaner Animals</h3>
+                <div class="shop-items" id="cleanerItems"></div>
+            </div>
+            
+            <div class="shop-section">
+                <h3 class="section-title">🏰 Decorations</h3>
+                <div class="shop-items" id="decorationItems"></div>
+            </div>
+            
+            <div class="shop-section">
+                <h3 class="section-title">⬆️ Upgrades</h3>
+                <div class="shop-items" id="upgradeItems"></div>
+            </div>
+            
+            <div class="premium-section">
+                <div class="premium-title">🏆 PREMIUM - Big Tank!</div>
+                <div class="premium-desc">Upgrade to a massive tank that holds up to 9 fish! More space = more fun!</div>
+                <button class="btn btn-premium" onclick="purchaseBigTank()" id="premiumBtn">💎 $4.99 USD - Unlock Big Tank</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Customize Modal -->
+    <div class="modal-overlay" id="customizeModal">
+        <div class="shop-modal">
+            <div class="shop-header">
+                <h2 class="shop-title">🎨 Customize Bubbles</h2>
+                <button class="close-btn" onclick="closeCustomize()">✕</button>
+            </div>
+            
+            <div class="fish-preview" id="fishPreview">
+                <svg viewBox="0 0 75 55" style="width:100%;height:100%;">
+                    <defs>
+                        <linearGradient id="previewGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" id="previewColor1" style="stop-color:#ffb366"/>
+                            <stop offset="50%" id="previewColor2" style="stop-color:#ff8533"/>
+                            <stop offset="100%" id="previewColor3" style="stop-color:#cc5200"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M5 27 Q-2 15 10 8 Q14 22 14 27 Q14 32 10 46 Q-2 39 5 27" fill="url(#previewGrad)"/>
+                    <ellipse cx="38" cy="27" rx="28" ry="20" fill="url(#previewGrad)"/>
+                    <path d="M32 8 Q38 -2 50 4 Q45 12 38 10 Z" fill="url(#previewGrad)"/>
+                    <ellipse cx="54" cy="22" rx="8" ry="9" fill="white"/>
+                    <circle cx="56" cy="22" r="5" fill="#1a1a2e"/>
+                    <circle cx="57" cy="20" r="2" fill="white"/>
+                    <ellipse cx="64" cy="30" rx="4" ry="2.5" fill="#cc3300" opacity="0.85"/>
+                    <text x="38" y="50" id="previewAccessory" font-size="12" text-anchor="middle"></text>
+                </svg>
+            </div>
+            
+            <div class="shop-section">
+                <h3 class="section-title">🎨 Colors</h3>
+                <div class="color-options" id="colorOptions"></div>
+            </div>
+            
+            <div class="shop-section">
+                <h3 class="section-title">✨ Patterns</h3>
+                <div class="pattern-options" id="patternOptions"></div>
+            </div>
+            
+            <div class="shop-section">
+                <h3 class="section-title">👒 Accessories</h3>
+                <div class="accessory-options" id="accessoryOptions"></div>
+            </div>
+            
+            <button class="btn" style="width:100%;background:linear-gradient(145deg,#6bcb77,#4ade80);color:white;margin-top:10px;" onclick="applyCustomization()">✅ Apply Changes</button>
+        </div>
+    </div>
 
     <script>
         // Game State
         let gameState = {
-            hunger: 100,
+            hunger: 70,
             happiness: 100,
             health: 100,
             cleanliness: 100,
+            waterLevel: 100,
             score: 0,
+            coins: 0,
             isAlive: true,
-            foodCount: 0
+            isEscaped: false,
+            foodCount: 0,
+            uneatenFood: 0,
+            overfedLevel: 0,
+            deathReason: '',
+            lastCoinTime: 0,
+            waterBottles: 3,
+            hasBigTank: false,
+            maxFish: 1,
+            currentFish: 1
         };
+
+        // Fish customization
+        let fishCustomization = {
+            color: 'orange',
+            pattern: 'none',
+            accessory: 'none'
+        };
+
+        const fishColors = {
+            orange: { c1: '#ffb366', c2: '#ff8533', c3: '#cc5200', price: 0 },
+            gold: { c1: '#ffd700', c2: '#ffaa00', c3: '#cc8800', price: 0 },
+            blue: { c1: '#66b3ff', c2: '#3399ff', c3: '#0066cc', price: 50 },
+            purple: { c1: '#b366ff', c2: '#9933ff', c3: '#6600cc', price: 50 },
+            pink: { c1: '#ff99cc', c2: '#ff66b2', c3: '#cc3385', price: 75 },
+            green: { c1: '#66ff99', c2: '#33cc66', c3: '#009933', price: 75 },
+            red: { c1: '#ff6666', c2: '#ff3333', c3: '#cc0000', price: 100 },
+            rainbow: { c1: '#ff6b6b', c2: '#4ecdc4', c3: '#9b59b6', price: 200 },
+            galaxy: { c1: '#1a1a3e', c2: '#4a1a6b', c3: '#0f2847', price: 300 }
+        };
+
+        const fishPatterns = [
+            { id: 'none', name: 'None', price: 0 },
+            { id: 'stripes', name: '🦓 Stripes', price: 80 },
+            { id: 'spots', name: '🐆 Spots', price: 80 },
+            { id: 'stars', name: '⭐ Stars', price: 150 },
+            { id: 'hearts', name: '💖 Hearts', price: 150 }
+        ];
+
+        const fishAccessories = [
+            { id: 'none', name: 'None', icon: '', price: 0 },
+            { id: 'crown', name: '👑 Crown', icon: '👑', price: 100 },
+            { id: 'tophat', name: '🎩 Top Hat', icon: '🎩', price: 100 },
+            { id: 'bow', name: '🎀 Bow', icon: '🎀', price: 75 },
+            { id: 'glasses', name: '🕶️ Sunglasses', icon: '🕶️', price: 80 },
+            { id: 'party', name: '🎉 Party Hat', icon: '🥳', price: 120 }
+        ];
+
+        let ownedCustomizations = {
+            colors: ['orange', 'gold'],
+            patterns: ['none'],
+            accessories: ['none']
+        };
+
+        // Decoration slots
+        let decoSlots = [null, null, null, null, null];
+        let selectedSlot = null;
 
         // Fish position and movement
         let fish = {
-            x: 250,
-            y: 180,
-            targetX: 250,
-            targetY: 180,
-            speed: 2,
-            facingRight: true
+            x: 280,
+            y: 200,
+            targetX: 280,
+            targetY: 200,
+            speed: 2.5,
+            facingRight: true,
+            goingToFood: false
         };
 
-        // Tank dimensions for responsive scaling
-        let tankWidth = 600;
-        let tankHeight = 450;
+        // Tank dimensions
+        let tankWidth = 650;
+        let tankHeight = 480;
 
+        // Items and animals
         let foodItems = [];
+        let cleanerAnimals = [];
+        let decorations = [];
+
+        // Shop items
+        const shopData = {
+            supplies: [
+                { id: 'water1', name: 'Water Bottle', icon: '💧', price: 20, amount: 1, type: 'water' },
+                { id: 'water3', name: 'Water Pack (3)', icon: '💦', price: 50, amount: 3, type: 'water' },
+                { id: 'water10', name: 'Water Crate (10)', icon: '🚰', price: 150, amount: 10, type: 'water' },
+                { id: 'food5', name: 'Premium Food', icon: '🍖', price: 40, type: 'food', desc: '+10 hunger per bite' }
+            ],
+            cleaners: [
+                { id: 'snail', name: 'Snail', icon: '🐌', price: 50, cleanRate: 0.3, desc: 'Slowly cleans algae' },
+                { id: 'shrimp', name: 'Shrimp', icon: '🦐', price: 80, cleanRate: 0.5, desc: 'Eats leftover food' },
+                { id: 'pleco', name: 'Pleco', icon: '🐟', price: 150, cleanRate: 1, desc: 'Master cleaner fish' },
+                { id: 'crab', name: 'Crab', icon: '🦀', price: 200, cleanRate: 1.5, desc: 'Cleans everything!' }
+            ],
+            decorations: [
+                { id: 'coral1', name: 'Pink Coral', icon: '🪸', price: 30, happiness: 5, slot: true },
+                { id: 'shell', name: 'Seashell', icon: '🐚', price: 25, happiness: 3, slot: true },
+                { id: 'anchor', name: 'Anchor', icon: '⚓', price: 60, happiness: 8, slot: true },
+                { id: 'diver', name: 'Diver', icon: '🤿', price: 100, happiness: 12, slot: true },
+                { id: 'submarine', name: 'Submarine', icon: '🚤', price: 200, happiness: 20, slot: true },
+                { id: 'mermaid', name: 'Mermaid', icon: '🧜‍♀️', price: 180, happiness: 18, slot: true },
+                { id: 'octopus', name: 'Octopus', icon: '🐙', price: 90, happiness: 10, slot: true }
+            ],
+            upgrades: [
+                { id: 'filter', name: 'Water Filter', icon: '🔄', price: 100, effect: 'slowEvaporation' },
+                { id: 'lid', name: 'Tank Lid', icon: '🔒', price: 150, effect: 'preventEscape' },
+                { id: 'autofeeder', name: 'Auto Feeder', icon: '⏰', price: 250, effect: 'autoFeed' },
+                { id: 'heater', name: 'Heater', icon: '🌡️', price: 120, effect: 'healthBoost' }
+            ]
+        };
+
+        let ownedItems = {
+            cleaners: [],
+            decorations: [],
+            upgrades: []
+        };
+
+        // Cheat code system
+        let cheatBuffer = '';
+        let cheatActive = false;
+        let cheatInterval = null;
+
+        // DOM elements
         const tank = document.getElementById('tank');
         const fishEl = document.getElementById('fish');
         const dirtyOverlay = document.getElementById('dirtyOverlay');
+        const waterSurface = document.getElementById('waterSurface');
+        const cleaningBrush = document.getElementById('cleaningBrush');
+        const warningIcon = document.getElementById('warningIcon');
 
-        // Update tank dimensions on resize
+        // Update tank dimensions
         function updateTankDimensions() {
             const rect = tank.getBoundingClientRect();
             tankWidth = rect.width;
             tankHeight = rect.height;
             
-            // Clamp fish position to new dimensions
-            fish.x = Math.min(fish.x, tankWidth - 70);
-            fish.y = Math.min(fish.y, tankHeight - 100);
-            fish.targetX = Math.min(fish.targetX, tankWidth - 70);
-            fish.targetY = Math.min(fish.targetY, tankHeight - 100);
+            fish.x = Math.min(fish.x, tankWidth - 80);
+            fish.y = Math.min(fish.y, tankHeight - 110);
+            fish.targetX = Math.min(fish.targetX, tankWidth - 80);
+            fish.targetY = Math.min(fish.targetY, tankHeight - 110);
         }
 
-        // Initialize
+        // Initialize game
         function init() {
             updateTankDimensions();
             window.addEventListener('resize', updateTankDimensions);
             
             updateFishPosition();
+            renderShop();
+            
             setInterval(gameLoop, 50);
             setInterval(updateStats, 1000);
-            setInterval(spawnBubble, 2000);
-            setInterval(moveFishRandomly, 3000);
+            setInterval(spawnBubble, 2500);
+            setInterval(moveFishRandomly, 2500);
+            setInterval(coinTick, 10000);
+            setInterval(checkEscape, 3000);
+            setInterval(moveCleaners, 100);
             
-            // Mouse click
             tank.addEventListener('click', handleInteraction);
-            
-            // Touch support
             tank.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 const touch = e.touches[0];
-                handleInteraction({
-                    clientX: touch.clientX,
-                    clientY: touch.clientY
-                });
+                handleInteraction({ clientX: touch.clientX, clientY: touch.clientY });
             }, { passive: false });
+            
+            // Cheat code listener
+            document.addEventListener('keypress', handleCheatCode);
+        }
+
+        function handleCheatCode(e) {
+            cheatBuffer += e.key.toLowerCase();
+            
+            // Keep only last 9 characters
+            if (cheatBuffer.length > 9) {
+                cheatBuffer = cheatBuffer.slice(-9);
+            }
+            
+            // Check for cheat code
+            if (cheatBuffer === 'mochi1234' && !cheatActive) {
+                activateCheat();
+            }
+        }
+
+        function activateCheat() {
+            cheatActive = true;
+            console.log('🐟 CHEAT ACTIVATED: mochi1234 - 1,000,000 coins/sec!');
+            
+            // Show activation message
+            const msg = document.createElement('div');
+            msg.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#ffd700,#ff8c00);color:#000;padding:20px 40px;border-radius:15px;font-family:"Fredoka One",cursive;font-size:1.5rem;z-index:9999;text-align:center;box-shadow:0 0 50px rgba(255,215,0,0.8);animation:cheatPulse 0.5s ease-in-out;';
+            msg.innerHTML = '🎉 CHEAT ACTIVATED! 🎉<br>💰 1,000,000 coins/sec! 💰';
+            document.body.appendChild(msg);
+            setTimeout(() => msg.remove(), 2000);
+            
+            // Add coin rain every second
+            cheatInterval = setInterval(() => {
+                if (gameState.isAlive) {
+                    gameState.coins += 1000000;
+                    document.getElementById('coins').textContent = gameState.coins.toLocaleString();
+                }
+            }, 1000);
         }
 
         function handleInteraction(e) {
-            if (!gameState.isAlive) return;
+            if (!gameState.isAlive || gameState.isEscaped) return;
             const rect = tank.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
@@ -1026,25 +1708,25 @@
         function gameLoop() {
             if (!gameState.isAlive) return;
             
-            moveFish();
-            checkFoodCollision();
+            if (!gameState.isEscaped) {
+                moveFish();
+                checkFoodCollision();
+            }
             updateVisuals();
         }
 
-        // Move fish towards target
+        // Fish movement
         function moveFish() {
             const dx = fish.targetX - fish.x;
             const dy = fish.targetY - fish.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
             
-            // Scale speed based on tank size
-            const scaledSpeed = fish.speed * (tankWidth / 600);
+            const scaledSpeed = fish.speed * (tankWidth / 650);
             
             if (dist > 5) {
                 fish.x += (dx / dist) * scaledSpeed;
                 fish.y += (dy / dist) * scaledSpeed;
                 
-                // Update facing direction
                 if (dx > 0 && !fish.facingRight) {
                     fish.facingRight = true;
                     fishEl.classList.remove('flip');
@@ -1052,6 +1734,8 @@
                     fish.facingRight = false;
                     fishEl.classList.add('flip');
                 }
+            } else {
+                fish.goingToFood = false;
             }
             
             updateFishPosition();
@@ -1062,78 +1746,122 @@
             fishEl.style.top = fish.y + 'px';
         }
 
-        // Random fish movement
+        // Random movement
         function moveFishRandomly() {
-            if (!gameState.isAlive) return;
+            if (!gameState.isAlive || gameState.isEscaped) return;
             
-            const sandHeight = tankHeight * 0.11;
-            const maxY = tankHeight - sandHeight - 60;
+            const sandHeight = tankHeight * 0.115;
+            const waterTop = tankHeight * (1 - gameState.waterLevel / 100) + 20;
+            const maxY = tankHeight - sandHeight - 65;
             
-            // If there's food, go towards it
-            if (foodItems.length > 0) {
+            // Priority: go to food if hungry and food exists
+            if (gameState.hunger < 70 && foodItems.length > 0 && !fish.goingToFood) {
                 const nearestFood = foodItems[0];
-                const fishWidth = fishEl.getBoundingClientRect().width;
+                const fishWidth = 75 * (tankWidth / 650);
                 fish.targetX = nearestFood.x - fishWidth / 2;
-                fish.targetY = nearestFood.y - 25;
-            } else {
-                // Random movement
-                fish.targetX = 30 + Math.random() * (tankWidth - 100);
-                fish.targetY = 30 + Math.random() * maxY;
+                fish.targetY = Math.max(waterTop, nearestFood.y - 30);
+                fish.goingToFood = true;
+                fish.speed = 3.5;
+            } else if (!fish.goingToFood) {
+                fish.targetX = 40 + Math.random() * (tankWidth - 120);
+                fish.targetY = Math.max(waterTop, 40) + Math.random() * (maxY - waterTop);
+                fish.speed = 2.5;
             }
         }
 
         // Create food
         function createFood(x, y) {
+            // Check for overfeeding
+            if (gameState.uneatenFood >= 5) {
+                showWarning();
+                return;
+            }
+            
             const food = document.createElement('div');
-            food.className = 'food';
+            food.className = 'food sinking';
             food.style.left = x + 'px';
-            food.style.top = Math.max(30, y) + 'px';
+            food.style.top = Math.max(20, y) + 'px';
             tank.appendChild(food);
             
-            const foodObj = { element: food, x: x, y: Math.max(30, y) };
+            const foodObj = { 
+                element: food, 
+                x: x, 
+                y: Math.max(20, y),
+                sinkSpeed: 0.5,
+                eaten: false
+            };
             foodItems.push(foodObj);
-            
-            // Make fish go towards food
-            const fishWidth = fishEl.getBoundingClientRect().width;
-            fish.targetX = x - fishWidth / 2;
-            fish.targetY = Math.max(30, y) - 25;
-            
-            // Remove food after animation
-            setTimeout(() => {
-                if (foodItems.includes(foodObj)) {
-                    food.remove();
-                    foodItems = foodItems.filter(f => f !== foodObj);
-                    gameState.cleanliness = Math.max(0, gameState.cleanliness - 3);
-                }
-            }, 3000);
-            
+            gameState.uneatenFood++;
             gameState.foodCount++;
+            
+            // Fish goes to food
+            if (gameState.hunger < 90) {
+                const fishWidth = 75 * (tankWidth / 650);
+                fish.targetX = x - fishWidth / 2;
+                fish.targetY = Math.max(20, y) - 30;
+                fish.goingToFood = true;
+                fish.speed = 3.5;
+            }
         }
 
-        // Check if fish eats food
-        function checkFoodCollision() {
-            const fishWidth = fishEl.getBoundingClientRect().width;
-            const collisionDist = fishWidth * 0.6;
+        // Food sinking and decay
+        function updateFood() {
+            const sandTop = tankHeight - 55;
             
             for (let i = foodItems.length - 1; i >= 0; i--) {
                 const food = foodItems[i];
+                if (!food.eaten) {
+                    food.y += food.sinkSpeed;
+                    food.element.style.top = food.y + 'px';
+                    
+                    // Food reached bottom - decays and dirties water
+                    if (food.y >= sandTop - 10) {
+                        food.element.remove();
+                        foodItems.splice(i, 1);
+                        gameState.cleanliness = Math.max(0, gameState.cleanliness - 5);
+                        // Uneaten food stays counted for overfeeding
+                    }
+                }
+            }
+        }
+
+        // Check food collision
+        function checkFoodCollision() {
+            const fishWidth = 75 * (tankWidth / 650);
+            const collisionDist = fishWidth * 0.5;
+            
+            for (let i = foodItems.length - 1; i >= 0; i--) {
+                const food = foodItems[i];
+                if (food.eaten) continue;
+                
                 const dx = (fish.x + fishWidth / 2) - food.x;
-                const dy = (fish.y + 25) - food.y;
+                const dy = (fish.y + 27) - food.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 
                 if (dist < collisionDist) {
-                    // Eat food!
                     food.element.remove();
+                    food.eaten = true;
                     foodItems.splice(i, 1);
+                    gameState.uneatenFood = Math.max(0, gameState.uneatenFood - 1);
                     
-                    // Trigger eating animation
                     fishEl.classList.add('eating');
                     setTimeout(() => fishEl.classList.remove('eating'), 600);
                     
-                    gameState.hunger = Math.min(100, gameState.hunger + 20);
-                    gameState.happiness = Math.min(100, gameState.happiness + 5);
+                    // Eating increases hunger but can overfeed
+                    const hungerGain = 25;
+                    gameState.hunger = Math.min(120, gameState.hunger + hungerGain);
                     
-                    // Move to new random position
+                    if (gameState.hunger > 100) {
+                        gameState.overfedLevel += (gameState.hunger - 100);
+                        gameState.hunger = 100;
+                        
+                        if (gameState.overfedLevel > 50) {
+                            fishEl.classList.add('overfed');
+                        }
+                    }
+                    
+                    gameState.happiness = Math.min(100, gameState.happiness + 3);
+                    fish.goingToFood = false;
                     moveFishRandomly();
                 }
             }
@@ -1143,61 +1871,196 @@
         function updateStats() {
             if (!gameState.isAlive) return;
             
-            // Decrease stats over time
-            gameState.hunger = Math.max(0, gameState.hunger - 2);
-            gameState.happiness = Math.max(0, gameState.happiness - 1);
-            gameState.cleanliness = Math.max(0, gameState.cleanliness - 0.5);
+            // Hunger decreases
+            gameState.hunger = Math.max(0, gameState.hunger - 2.5);
             
-            // Health affected by other stats
-            if (gameState.hunger < 30) {
+            // Overfed level slowly decreases
+            if (gameState.overfedLevel > 0) {
+                gameState.overfedLevel = Math.max(0, gameState.overfedLevel - 2);
+                if (gameState.overfedLevel <= 50) {
+                    fishEl.classList.remove('overfed');
+                }
+            }
+            
+            // Water evaporates and fish drinks
+            let evaporationRate = 0.4;
+            if (ownedItems.upgrades.includes('filter')) evaporationRate = 0.2;
+            gameState.waterLevel = Math.max(0, gameState.waterLevel - evaporationRate);
+            
+            // Happiness decreases
+            gameState.happiness = Math.max(0, gameState.happiness - 0.8);
+            
+            // Cleanliness decreases (cleaner animals help)
+            let cleanBonus = 0;
+            cleanerAnimals.forEach(animal => {
+                const data = shopData.cleaners.find(c => c.id === animal.type);
+                if (data) cleanBonus += data.cleanRate;
+            });
+            gameState.cleanliness = Math.min(100, Math.max(0, gameState.cleanliness - 0.6 + cleanBonus));
+            
+            // Decoration happiness bonus
+            let decoBonus = 0;
+            ownedItems.decorations.forEach(id => {
+                const data = shopData.decorations.find(d => d.id === id);
+                if (data) decoBonus += data.happiness * 0.02;
+            });
+            gameState.happiness = Math.min(100, gameState.happiness + decoBonus);
+            
+            // Health effects
+            if (gameState.hunger < 20) {
+                gameState.health = Math.max(0, gameState.health - 4);
+            }
+            if (gameState.cleanliness < 25) {
                 gameState.health = Math.max(0, gameState.health - 3);
             }
-            if (gameState.cleanliness < 30) {
-                gameState.health = Math.max(0, gameState.health - 2);
+            if (gameState.waterLevel < 30) {
+                gameState.health = Math.max(0, gameState.health - 5);
             }
-            if (gameState.hunger > 50 && gameState.cleanliness > 50) {
-                gameState.health = Math.min(100, gameState.health + 1);
+            if (gameState.overfedLevel > 30) {
+                gameState.health = Math.max(0, gameState.health - 4);
+            }
+            if (gameState.isEscaped) {
+                gameState.health = Math.max(0, gameState.health - 8);
             }
             
-            // Happiness affected by hunger
-            if (gameState.hunger < 20) {
-                gameState.happiness = Math.max(0, gameState.happiness - 2);
+            // Health regeneration when conditions are good
+            if (gameState.hunger > 50 && gameState.cleanliness > 60 && gameState.waterLevel > 50 && 
+                gameState.overfedLevel < 20 && !gameState.isEscaped) {
+                let regenRate = 0.8;
+                if (ownedItems.upgrades.includes('heater')) regenRate = 1.5;
+                gameState.health = Math.min(100, gameState.health + regenRate);
+            }
+            
+            // Happiness from hunger
+            if (gameState.hunger < 15) {
+                gameState.happiness = Math.max(0, gameState.happiness - 3);
             }
             
             // Update score
             gameState.score++;
             document.getElementById('score').textContent = gameState.score;
             
-            // Check for death
-            if (gameState.health <= 0) {
-                gameOver();
+            // Update food positions
+            updateFood();
+            
+            // Auto feeder
+            if (ownedItems.upgrades.includes('autofeeder') && gameState.hunger < 40 && gameState.uneatenFood < 2) {
+                const x = 100 + Math.random() * (tankWidth - 200);
+                createFood(x, 30);
             }
+            
+            // Check for death
+            checkDeath();
             
             updateVisuals();
         }
 
-        // Update visual elements
+        function checkDeath() {
+            if (gameState.health <= 0) {
+                if (gameState.isEscaped) {
+                    gameState.deathReason = "💀 Bubbles jumped out and couldn't breathe!";
+                } else if (gameState.overfedLevel > 30) {
+                    gameState.deathReason = "🍔 Bubbles was overfed and got sick!";
+                } else if (gameState.waterLevel < 30) {
+                    gameState.deathReason = "💧 The water level got too low!";
+                } else if (gameState.hunger < 20) {
+                    gameState.deathReason = "😢 Bubbles starved from hunger!";
+                } else if (gameState.cleanliness < 25) {
+                    gameState.deathReason = "🦠 The tank got too dirty!";
+                } else {
+                    gameState.deathReason = "💔 Bubbles has passed away";
+                }
+                gameOver();
+            }
+        }
+
+        // Coin earning every 10 seconds
+        function coinTick() {
+            if (!gameState.isAlive || gameState.isEscaped) return;
+            
+            const coinsEarned = 10;
+            gameState.coins += coinsEarned;
+            document.getElementById('coins').textContent = gameState.coins.toLocaleString();
+            
+            // Visual feedback
+            const coinEl = document.querySelector('.coin-icon');
+            coinEl.style.transform = 'scale(1.3)';
+            setTimeout(() => coinEl.style.transform = '', 200);
+        }
+
+        // Fish escape mechanic
+        function checkEscape() {
+            if (!gameState.isAlive || gameState.isEscaped) return;
+            if (ownedItems.upgrades.includes('lid')) return;
+            
+            // Fish can escape if water is high and fish is near top and unhappy
+            if (gameState.waterLevel > 80 && fish.y < 60 && gameState.happiness < 40) {
+                const escapeChance = (100 - gameState.happiness) / 500;
+                if (Math.random() < escapeChance) {
+                    fishEscapes();
+                }
+            }
+        }
+
+        function fishEscapes() {
+            gameState.isEscaped = true;
+            fishEl.classList.add('escaped');
+            
+            // Move fish above tank
+            fishEl.style.top = '-50px';
+            fishEl.style.left = fish.x + 'px';
+            
+            showWarning();
+        }
+
+        function rescueFish() {
+            if (!gameState.isEscaped) return;
+            
+            gameState.isEscaped = false;
+            fishEl.classList.remove('escaped');
+            fish.y = 100;
+            fish.targetY = 150;
+            updateFishPosition();
+            warningIcon.classList.remove('show');
+        }
+
+        // Show warning
+        function showWarning() {
+            warningIcon.classList.add('show');
+            setTimeout(() => warningIcon.classList.remove('show'), 2000);
+        }
+
+        // Update visuals
         function updateVisuals() {
-            document.getElementById('hungerBar').style.width = gameState.hunger + '%';
+            document.getElementById('hungerBar').style.width = Math.min(100, gameState.hunger) + '%';
             document.getElementById('happinessBar').style.width = gameState.happiness + '%';
             document.getElementById('healthBar').style.width = gameState.health + '%';
             document.getElementById('cleanlinessBar').style.width = gameState.cleanliness + '%';
+            document.getElementById('waterBar').style.width = gameState.waterLevel + '%';
+            document.getElementById('waterLevelFill').style.height = gameState.waterLevel + '%';
             
-            // Update bar colors based on level
+            // Water surface position
+            const waterTop = (100 - gameState.waterLevel) * (tankHeight - 60) / 100;
+            waterSurface.style.top = waterTop + 'px';
+            
+            // Bar colors
             updateBarColor('hungerBar', gameState.hunger);
             updateBarColor('happinessBar', gameState.happiness);
             updateBarColor('healthBar', gameState.health);
             updateBarColor('cleanlinessBar', gameState.cleanliness);
+            updateBarColor('waterBar', gameState.waterLevel);
             
-            // Update dirty overlay - water gets greener as it gets dirtier
+            // Dirty overlay
             const dirtiness = (100 - gameState.cleanliness) / 100;
-            const greenIntensity = Math.floor(80 + dirtiness * 100);
-            const redIntensity = Math.floor(30 + dirtiness * 40);
-            const blueIntensity = Math.floor(20 + dirtiness * 20);
-            dirtyOverlay.style.background = `rgba(${redIntensity}, ${greenIntensity}, ${blueIntensity}, ${dirtiness * 0.55})`;
+            const greenIntensity = Math.floor(60 + dirtiness * 120);
+            const redIntensity = Math.floor(30 + dirtiness * 50);
+            const blueIntensity = Math.floor(20 + dirtiness * 25);
+            dirtyOverlay.style.background = `rgba(${redIntensity}, ${greenIntensity}, ${blueIntensity}, ${dirtiness * 0.6})`;
             
-            // Fish speed affected by hunger
-            fish.speed = gameState.hunger > 30 ? 2 : 1;
+            // Fish speed based on hunger
+            if (!fish.goingToFood) {
+                fish.speed = gameState.hunger > 30 ? 2.5 : 1.5;
+            }
         }
 
         function updateBarColor(barId, value) {
@@ -1217,11 +2080,11 @@
             
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
-            const size = 5 + Math.random() * 15;
+            const size = 6 + Math.random() * 18;
             bubble.style.width = size + 'px';
             bubble.style.height = size + 'px';
-            bubble.style.left = (30 + Math.random() * (tankWidth - 60)) + 'px';
-            bubble.style.bottom = (tankHeight * 0.13) + 'px';
+            bubble.style.left = (40 + Math.random() * (tankWidth - 80)) + 'px';
+            bubble.style.bottom = (tankHeight * 0.12) + 'px';
             tank.appendChild(bubble);
             
             setTimeout(() => bubble.remove(), 4000);
@@ -1229,72 +2092,553 @@
 
         // Button actions
         function dropFood() {
+            if (!gameState.isAlive || gameState.isEscaped) return;
+            
+            if (gameState.uneatenFood >= 5) {
+                showWarning();
+                return;
+            }
+            
+            const x = 80 + Math.random() * (tankWidth - 160);
+            createFood(x, 30);
+        }
+
+        function addWater() {
             if (!gameState.isAlive) return;
-            const x = 50 + Math.random() * (tankWidth - 100);
-            createFood(x, 50);
+            if (gameState.waterBottles <= 0) {
+                showWarning();
+                return;
+            }
+            
+            gameState.waterBottles--;
+            document.getElementById('waterBottles').textContent = gameState.waterBottles;
+            gameState.waterLevel = Math.min(100, gameState.waterLevel + 25);
+            
+            // If fish escaped and we add water, they might come back
+            if (gameState.isEscaped && gameState.waterLevel > 60) {
+                rescueFish();
+            }
+            
+            updateVisuals();
         }
 
         function cleanTank() {
             if (!gameState.isAlive) return;
-            gameState.cleanliness = Math.min(100, gameState.cleanliness + 30);
-            gameState.happiness = Math.min(100, gameState.happiness + 5);
-            updateVisuals();
             
-            // Visual feedback
-            dirtyOverlay.style.transition = 'background 0.3s ease';
+            // Show cleaning animation
+            cleaningBrush.style.left = '50%';
+            cleaningBrush.style.top = '20%';
+            cleaningBrush.classList.add('active');
+            
+            // Spawn sparkles
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'clean-sparkle';
+                    sparkle.innerHTML = '✨';
+                    sparkle.style.left = (100 + Math.random() * (tankWidth - 200)) + 'px';
+                    sparkle.style.top = (50 + Math.random() * (tankHeight - 150)) + 'px';
+                    sparkle.style.fontSize = (15 + Math.random() * 15) + 'px';
+                    tank.appendChild(sparkle);
+                    setTimeout(() => sparkle.remove(), 600);
+                }, i * 150);
+            }
+            
             setTimeout(() => {
-                dirtyOverlay.style.transition = 'background 1s ease';
-            }, 300);
+                cleaningBrush.classList.remove('active');
+                gameState.cleanliness = Math.min(100, gameState.cleanliness + 35);
+                gameState.happiness = Math.min(100, gameState.happiness + 5);
+                
+                // Remove uneaten food from bottom
+                for (let i = foodItems.length - 1; i >= 0; i--) {
+                    const food = foodItems[i];
+                    if (food.y > tankHeight - 100) {
+                        food.element.remove();
+                        foodItems.splice(i, 1);
+                        gameState.uneatenFood = Math.max(0, gameState.uneatenFood - 1);
+                    }
+                }
+                
+                updateVisuals();
+            }, 1500);
         }
 
         function playWithFish() {
             if (!gameState.isAlive) return;
-            gameState.happiness = Math.min(100, gameState.happiness + 25);
-            gameState.hunger = Math.max(0, gameState.hunger - 5);
             
-            const sandHeight = tankHeight * 0.11;
-            const maxY = tankHeight - sandHeight - 60;
-            
-            // Make fish swim around excitedly
-            for (let i = 0; i < 3; i++) {
-                setTimeout(() => {
-                    fish.targetX = 30 + Math.random() * (tankWidth - 100);
-                    fish.targetY = 30 + Math.random() * maxY;
-                    fish.speed = 4;
-                }, i * 500);
+            if (gameState.isEscaped) {
+                rescueFish();
+                gameState.happiness = Math.min(100, gameState.happiness + 10);
+                return;
             }
-            setTimeout(() => fish.speed = 2, 2000);
+            
+            gameState.happiness = Math.min(100, gameState.happiness + 20);
+            gameState.hunger = Math.max(0, gameState.hunger - 4);
+            
+            const sandHeight = tankHeight * 0.115;
+            const maxY = tankHeight - sandHeight - 65;
+            
+            for (let i = 0; i < 4; i++) {
+                setTimeout(() => {
+                    if (!gameState.isAlive) return;
+                    fish.targetX = 40 + Math.random() * (tankWidth - 120);
+                    fish.targetY = 40 + Math.random() * maxY;
+                    fish.speed = 5;
+                }, i * 400);
+            }
+            setTimeout(() => fish.speed = 2.5, 2000);
             
             updateVisuals();
+        }
+
+        // Cleaner animal movement
+        function moveCleaners() {
+            cleanerAnimals.forEach(animal => {
+                // Simple movement along bottom/sides
+                animal.x += animal.dx;
+                
+                if (animal.x < 20 || animal.x > tankWidth - 50) {
+                    animal.dx *= -1;
+                    animal.element.classList.toggle('flip');
+                }
+                
+                animal.element.style.left = animal.x + 'px';
+            });
+        }
+
+        // Shop functions
+        function openShop() {
+            document.getElementById('shopModal').classList.add('show');
+            renderShop();
+        }
+
+        function closeShop() {
+            document.getElementById('shopModal').classList.remove('show');
+        }
+
+        function renderShop() {
+            // Supplies (consumables)
+            const supplyContainer = document.getElementById('supplyItems');
+            supplyContainer.innerHTML = '';
+            shopData.supplies.forEach(item => {
+                const canAfford = gameState.coins >= item.price;
+                const div = document.createElement('div');
+                div.className = `shop-item ${!canAfford ? 'disabled' : ''}`;
+                div.innerHTML = `
+                    <div class="item-icon">${item.icon}</div>
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-price">🪙 ${item.price}</div>
+                `;
+                if (canAfford) {
+                    div.onclick = () => buySupply(item);
+                }
+                supplyContainer.appendChild(div);
+            });
+            
+            // Cleaners
+            const cleanerContainer = document.getElementById('cleanerItems');
+            cleanerContainer.innerHTML = '';
+            shopData.cleaners.forEach(item => {
+                const owned = ownedItems.cleaners.includes(item.id);
+                const canAfford = gameState.coins >= item.price;
+                const div = document.createElement('div');
+                div.className = `shop-item ${owned ? 'owned' : ''} ${!canAfford && !owned ? 'disabled' : ''}`;
+                div.innerHTML = `
+                    <div class="item-icon">${item.icon}</div>
+                    <div class="item-name">${item.name}</div>
+                    ${owned ? '<div class="item-owned">✓ Owned</div>' : `<div class="item-price">🪙 ${item.price}</div>`}
+                `;
+                if (!owned && canAfford) {
+                    div.onclick = () => buyItem('cleaners', item);
+                }
+                cleanerContainer.appendChild(div);
+            });
+            
+            // Decorations
+            const decoContainer = document.getElementById('decorationItems');
+            decoContainer.innerHTML = '';
+            shopData.decorations.forEach(item => {
+                const owned = ownedItems.decorations.includes(item.id);
+                const canAfford = gameState.coins >= item.price;
+                const div = document.createElement('div');
+                div.className = `shop-item ${owned ? 'owned' : ''} ${!canAfford && !owned ? 'disabled' : ''}`;
+                div.innerHTML = `
+                    <div class="item-icon">${item.icon}</div>
+                    <div class="item-name">${item.name}</div>
+                    ${owned ? '<div class="item-owned">✓ Owned</div>' : `<div class="item-price">🪙 ${item.price}</div>`}
+                `;
+                if (!owned && canAfford) {
+                    div.onclick = () => buyItem('decorations', item);
+                }
+                decoContainer.appendChild(div);
+            });
+            
+            // Upgrades
+            const upgradeContainer = document.getElementById('upgradeItems');
+            upgradeContainer.innerHTML = '';
+            shopData.upgrades.forEach(item => {
+                const owned = ownedItems.upgrades.includes(item.id);
+                const canAfford = gameState.coins >= item.price;
+                const div = document.createElement('div');
+                div.className = `shop-item ${owned ? 'owned' : ''} ${!canAfford && !owned ? 'disabled' : ''}`;
+                div.innerHTML = `
+                    <div class="item-icon">${item.icon}</div>
+                    <div class="item-name">${item.name}</div>
+                    ${owned ? '<div class="item-owned">✓ Owned</div>' : `<div class="item-price">🪙 ${item.price}</div>`}
+                `;
+                if (!owned && canAfford) {
+                    div.onclick = () => buyItem('upgrades', item);
+                }
+                upgradeContainer.appendChild(div);
+            });
+            
+            // Update premium button
+            const premiumBtn = document.getElementById('premiumBtn');
+            if (gameState.hasBigTank) {
+                premiumBtn.textContent = '✅ Big Tank Unlocked!';
+                premiumBtn.disabled = true;
+                premiumBtn.style.opacity = '0.6';
+            }
+        }
+
+        function buySupply(item) {
+            if (gameState.coins < item.price) return;
+            
+            gameState.coins -= item.price;
+            document.getElementById('coins').textContent = gameState.coins.toLocaleString();
+            
+            if (item.type === 'water') {
+                gameState.waterBottles += item.amount;
+                document.getElementById('waterBottles').textContent = gameState.waterBottles;
+            }
+            
+            renderShop();
+        }
+
+        // Decoration slot system
+        function selectDecoSlot(slotIndex) {
+            if (decoSlots[slotIndex]) return; // Already filled
+            
+            selectedSlot = slotIndex;
+            const availableDecos = ownedItems.decorations.filter(id => !decoSlots.includes(id));
+            
+            if (availableDecos.length === 0) {
+                alert('Buy decorations from the shop first!');
+                return;
+            }
+            
+            // Show decoration picker
+            const picker = prompt('Choose decoration:\n' + availableDecos.map((id, i) => {
+                const item = shopData.decorations.find(d => d.id === id);
+                return `${i + 1}. ${item.icon} ${item.name}`;
+            }).join('\n') + '\n\nEnter number:');
+            
+            if (picker && !isNaN(picker)) {
+                const idx = parseInt(picker) - 1;
+                if (idx >= 0 && idx < availableDecos.length) {
+                    placeDecoration(slotIndex, availableDecos[idx]);
+                }
+            }
+        }
+
+        function placeDecoration(slotIndex, decoId) {
+            const item = shopData.decorations.find(d => d.id === decoId);
+            if (!item) return;
+            
+            decoSlots[slotIndex] = decoId;
+            const slot = document.querySelector(`[data-slot="${slotIndex}"]`);
+            slot.innerHTML = item.icon;
+            slot.classList.add('filled');
+        }
+
+        // Premium big tank purchase
+        function purchaseBigTank() {
+            if (gameState.hasBigTank) return;
+            
+            // Simulate payment (in real app, integrate payment gateway)
+            const confirmed = confirm('🏆 PREMIUM UPGRADE\n\nBig Tank - $4.99 USD\n• Tank size increases significantly\n• Hold up to 9 fish!\n• More room for decorations\n\nClick OK to purchase (simulated)');
+            
+            if (confirmed) {
+                gameState.hasBigTank = true;
+                gameState.maxFish = 9;
+                
+                // Resize tank
+                tank.classList.add('big-tank');
+                updateTankDimensions();
+                
+                // Update fish count display
+                updateFishCount();
+                
+                // Add more decoration slots
+                const slotsContainer = document.getElementById('decoSlots');
+                for (let i = 5; i < 8; i++) {
+                    const newSlot = document.createElement('div');
+                    newSlot.className = 'deco-slot';
+                    newSlot.dataset.slot = i;
+                    newSlot.onclick = () => selectDecoSlot(i);
+                    slotsContainer.appendChild(newSlot);
+                    decoSlots.push(null);
+                }
+                
+                // Show success message
+                const msg = document.createElement('div');
+                msg.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#ffd700,#ff8c00);color:#000;padding:30px 50px;border-radius:20px;font-family:"Fredoka One",cursive;font-size:1.8rem;z-index:9999;text-align:center;box-shadow:0 0 60px rgba(255,215,0,0.9);';
+                msg.innerHTML = '🎉 BIG TANK UNLOCKED! 🎉<br><span style="font-size:1rem;">You can now have up to 9 fish!</span>';
+                document.body.appendChild(msg);
+                setTimeout(() => msg.remove(), 3000);
+                
+                renderShop();
+            }
+        }
+
+        function updateFishCount() {
+            document.getElementById('fishCount').textContent = `🐟 ${gameState.currentFish}/${gameState.maxFish} Fish`;
+        }
+
+        // Customize functions
+        function openCustomize() {
+            document.getElementById('customizeModal').classList.add('show');
+            renderCustomization();
+        }
+
+        function closeCustomize() {
+            document.getElementById('customizeModal').classList.remove('show');
+        }
+
+        function renderCustomization() {
+            // Colors
+            const colorContainer = document.getElementById('colorOptions');
+            colorContainer.innerHTML = '';
+            Object.entries(fishColors).forEach(([id, data]) => {
+                const owned = ownedCustomizations.colors.includes(id);
+                const selected = fishCustomization.color === id;
+                const div = document.createElement('div');
+                div.className = `color-option ${selected ? 'selected' : ''} ${!owned ? 'locked' : ''}`;
+                div.style.background = `linear-gradient(145deg, ${data.c1}, ${data.c2})`;
+                div.title = owned ? id : `🔒 ${data.price} coins`;
+                div.onclick = () => selectColor(id);
+                colorContainer.appendChild(div);
+            });
+            
+            // Patterns
+            const patternContainer = document.getElementById('patternOptions');
+            patternContainer.innerHTML = '';
+            fishPatterns.forEach(p => {
+                const owned = ownedCustomizations.patterns.includes(p.id);
+                const selected = fishCustomization.pattern === p.id;
+                const div = document.createElement('div');
+                div.className = `pattern-option ${selected ? 'selected' : ''} ${!owned ? 'locked' : ''}`;
+                div.textContent = owned ? p.name : `🔒 ${p.name} (${p.price})`;
+                div.onclick = () => selectPattern(p.id);
+                patternContainer.appendChild(div);
+            });
+            
+            // Accessories
+            const accessoryContainer = document.getElementById('accessoryOptions');
+            accessoryContainer.innerHTML = '';
+            fishAccessories.forEach(a => {
+                const owned = ownedCustomizations.accessories.includes(a.id);
+                const selected = fishCustomization.accessory === a.id;
+                const div = document.createElement('div');
+                div.className = `accessory-option ${selected ? 'selected' : ''} ${!owned ? 'locked' : ''}`;
+                div.textContent = owned ? a.name : `🔒 ${a.name} (${a.price})`;
+                div.onclick = () => selectAccessory(a.id);
+                accessoryContainer.appendChild(div);
+            });
+            
+            updatePreview();
+        }
+
+        function selectColor(colorId) {
+            const data = fishColors[colorId];
+            if (!ownedCustomizations.colors.includes(colorId)) {
+                if (gameState.coins >= data.price) {
+                    if (confirm(`Buy ${colorId} color for ${data.price} coins?`)) {
+                        gameState.coins -= data.price;
+                        ownedCustomizations.colors.push(colorId);
+                        document.getElementById('coins').textContent = gameState.coins.toLocaleString();
+                    } else return;
+                } else {
+                    alert('Not enough coins!');
+                    return;
+                }
+            }
+            fishCustomization.color = colorId;
+            renderCustomization();
+        }
+
+        function selectPattern(patternId) {
+            const data = fishPatterns.find(p => p.id === patternId);
+            if (!ownedCustomizations.patterns.includes(patternId)) {
+                if (gameState.coins >= data.price) {
+                    if (confirm(`Buy ${data.name} pattern for ${data.price} coins?`)) {
+                        gameState.coins -= data.price;
+                        ownedCustomizations.patterns.push(patternId);
+                        document.getElementById('coins').textContent = gameState.coins.toLocaleString();
+                    } else return;
+                } else {
+                    alert('Not enough coins!');
+                    return;
+                }
+            }
+            fishCustomization.pattern = patternId;
+            renderCustomization();
+        }
+
+        function selectAccessory(accessoryId) {
+            const data = fishAccessories.find(a => a.id === accessoryId);
+            if (!ownedCustomizations.accessories.includes(accessoryId)) {
+                if (gameState.coins >= data.price) {
+                    if (confirm(`Buy ${data.name} for ${data.price} coins?`)) {
+                        gameState.coins -= data.price;
+                        ownedCustomizations.accessories.push(accessoryId);
+                        document.getElementById('coins').textContent = gameState.coins.toLocaleString();
+                    } else return;
+                } else {
+                    alert('Not enough coins!');
+                    return;
+                }
+            }
+            fishCustomization.accessory = accessoryId;
+            renderCustomization();
+        }
+
+        function updatePreview() {
+            const colors = fishColors[fishCustomization.color];
+            document.getElementById('previewColor1').style.stopColor = colors.c1;
+            document.getElementById('previewColor2').style.stopColor = colors.c2;
+            document.getElementById('previewColor3').style.stopColor = colors.c3;
+            
+            const acc = fishAccessories.find(a => a.id === fishCustomization.accessory);
+            document.getElementById('previewAccessory').textContent = acc ? acc.icon : '';
+        }
+
+        function applyCustomization() {
+            const colors = fishColors[fishCustomization.color];
+            
+            // Update main fish SVG gradients
+            const fishGradStops = fishEl.querySelectorAll('#fishGrad stop, #finGrad stop');
+            const stops = fishEl.querySelectorAll('#fishGrad stop');
+            if (stops[0]) stops[0].style.stopColor = colors.c1;
+            if (stops[1]) stops[1].style.stopColor = colors.c2;
+            if (stops[2]) stops[2].style.stopColor = colors.c2;
+            if (stops[3]) stops[3].style.stopColor = colors.c3;
+            
+            // Add accessory to fish
+            let existingAcc = fishEl.querySelector('.fish-accessory');
+            if (existingAcc) existingAcc.remove();
+            
+            const acc = fishAccessories.find(a => a.id === fishCustomization.accessory);
+            if (acc && acc.icon) {
+                const accEl = document.createElement('div');
+                accEl.className = 'fish-accessory';
+                accEl.style.cssText = 'position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:20px;z-index:11;';
+                accEl.textContent = acc.icon;
+                fishEl.parentElement.insertBefore(accEl, fishEl);
+            }
+            
+            closeCustomize();
+        }
+
+        function buyItem(category, item) {
+            if (gameState.coins < item.price) return;
+            if (ownedItems[category].includes(item.id)) return;
+            
+            gameState.coins -= item.price;
+            ownedItems[category].push(item.id);
+            document.getElementById('coins').textContent = gameState.coins.toLocaleString();
+            
+            // Create cleaner animal in tank
+            if (category === 'cleaners') {
+                spawnCleaner(item);
+            }
+            
+            // Add decoration to tank
+            if (category === 'decorations') {
+                addDecoration(item);
+            }
+            
+            renderShop();
+        }
+
+        function spawnCleaner(item) {
+            const cleaner = document.createElement('div');
+            cleaner.className = item.id;
+            cleaner.style.position = 'absolute';
+            cleaner.style.bottom = '55px';
+            cleaner.style.left = (100 + Math.random() * (tankWidth - 200)) + 'px';
+            cleaner.style.fontSize = '28px';
+            cleaner.style.zIndex = '8';
+            cleaner.innerHTML = item.icon;
+            tank.appendChild(cleaner);
+            
+            cleanerAnimals.push({
+                type: item.id,
+                element: cleaner,
+                x: parseFloat(cleaner.style.left),
+                dx: (Math.random() > 0.5 ? 1 : -1) * (0.3 + Math.random() * 0.4)
+            });
+        }
+
+        function addDecoration(item) {
+            // Find first empty slot and place decoration there
+            const emptySlotIndex = decoSlots.findIndex(s => s === null);
+            if (emptySlotIndex !== -1) {
+                placeDecoration(emptySlotIndex, item.id);
+            }
         }
 
         // Game over
         function gameOver() {
             gameState.isAlive = false;
             fishEl.classList.add('dead');
+            fishEl.classList.remove('escaped', 'overfed');
             document.getElementById('finalScore').textContent = gameState.score;
+            document.getElementById('finalCoins').textContent = gameState.coins.toLocaleString();
+            document.getElementById('deathReason').textContent = gameState.deathReason;
             document.getElementById('gameOver').classList.add('show');
         }
 
         // Restart game
         function restartGame() {
+            // Keep coins, owned items, and big tank status
+            const savedCoins = gameState.coins;
+            const savedOwned = JSON.parse(JSON.stringify(ownedItems));
+            const savedBigTank = gameState.hasBigTank;
+            const savedMaxFish = gameState.maxFish;
+            const savedWaterBottles = gameState.waterBottles;
+            
             gameState = {
-                hunger: 100,
+                hunger: 70,
                 happiness: 100,
                 health: 100,
                 cleanliness: 100,
+                waterLevel: 100,
                 score: 0,
+                coins: savedCoins,
                 isAlive: true,
-                foodCount: 0
+                isEscaped: false,
+                foodCount: 0,
+                uneatenFood: 0,
+                overfedLevel: 0,
+                deathReason: '',
+                lastCoinTime: 0,
+                waterBottles: savedWaterBottles,
+                hasBigTank: savedBigTank,
+                maxFish: savedMaxFish,
+                currentFish: 1
             };
+            
+            ownedItems = savedOwned;
             
             fish = {
                 x: tankWidth * 0.4,
                 y: tankHeight * 0.4,
                 targetX: tankWidth * 0.4,
                 targetY: tankHeight * 0.4,
-                speed: 2,
-                facingRight: true
+                speed: 2.5,
+                facingRight: true,
+                goingToFood: false
             };
             
             // Clear food
@@ -1302,10 +2646,15 @@
             foodItems = [];
             
             // Reset visuals
-            fishEl.classList.remove('dead', 'flip');
+            fishEl.classList.remove('dead', 'flip', 'escaped', 'overfed');
             document.getElementById('gameOver').classList.remove('show');
             document.getElementById('score').textContent = '0';
+            document.getElementById('coins').textContent = savedCoins.toLocaleString();
+            document.getElementById('waterBottles').textContent = savedWaterBottles;
+            warningIcon.classList.remove('show');
+            
             updateFishPosition();
+            updateFishCount();
             updateVisuals();
         }
 
